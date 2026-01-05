@@ -444,24 +444,23 @@ class GloverWorld(World):
 
         #All the scores are actual scores
         for each_score in self.options.total_scores.value:
-            if each_score == 'None':
-                continue
-            if not each_score.isdigit():
-                OptionError("\""+ each_score + "\" is not a valid score!")
-            each_score_int = int(each_score)
-            if each_score_int % 10000 != 0:
-                OptionError("Score \""+ each_score + "\" is not a multiple of 10000!")
-            if each_score_int < 10000:
-                OptionError("Score \""+ each_score + "\" is too low!")
-            if each_score_int >= 100000000:
-                OptionError("Score \""+ each_score + "\" is too high!")
+            if each_score != 'None':
+                if not each_score.isdigit():
+                    raise OptionError("\""+ each_score + "\" is not a valid score!")
+                each_score_int = int(each_score)
+                if each_score_int % 10000 != 0:
+                    raise OptionError("Score \""+ each_score + "\" is not a multiple of 10000!")
+                if each_score_int < 10000:
+                    raise OptionError("Score \""+ each_score + "\" is too low!")
+                if each_score_int >= 100000000:
+                    raise OptionError("Score \""+ each_score + "\" is too high!")
 
         for each_level in self.options.level_scores.value:
             level_index = self.level_from_string(each_level)
             if self.world_from_string(each_level) != 5 and level_index == 4:
-                OptionError("The only boss that gives enough score is Out of This World! Update your level scores.")
+                raise OptionError("The only boss that gives enough score is Out of This World! Update your level scores.")
             elif level_index == 0:
-                OptionError("Wayrooms do not have score!")
+                raise OptionError("Wayrooms do not have score!")
 
         #Checkpoint Overrides In-Bounds
         for target_level, set_checkpoint in self.options.checkpoint_overrides.items():

@@ -10208,6 +10208,14 @@
 						"NEEDS_BALL": true,
 						"REGION": 7,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": true,
+						"ck0": "Chest",
+						"ck1": "Raise Beach",
+						"mv0": 28,
+						"regionIndex": 7,
+						"trickDifficulty": 0
 					}
 				],
 				"D": [
@@ -10217,6 +10225,27 @@
 						"NEEDS_BALL": false,
 						"REGION": 7,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": false,
+						"ck0": "Chest",
+						"mv0": 2,
+						"regionIndex": 7,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": false,
+						"ck0": "Chest",
+						"mv0": 29,
+						"regionIndex": 7,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": false,
+						"ck0": "Raise Beach",
+						"ck1": "Chest",
+						"regionIndex": 8,
+						"trickDifficulty": 0
 					}
 				],
 				"I": 9
@@ -22201,9 +22230,15 @@
 					"TYPE": 2
 				},
 				{
-					"ballRequirement": true,
+					"ballRequirement": false,
+					"mv0": 8,
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"regionIndex": 0,
+					"trickDifficulty": 1
 				}
 			],
 			"Sharp Turn Garibs": [
@@ -33406,7 +33441,30 @@
 					},
 					{
 						"ballRequirement": true,
-						"ck0": "Stairs",
+						"mv0": 11,
+						"mv1": 26,
+						"mv2": 25,
+						"regionIndex": 6,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 8,
+						"mv1": 13,
+						"regionIndex": 6,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 8,
+						"mv1": 32,
+						"regionIndex": 6,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 12,
+						"mv1": 25,
 						"regionIndex": 6,
 						"trickDifficulty": 0
 					}
@@ -33497,15 +33555,33 @@
 				{
 					"ballRequirement": true,
 					"ck0": "Stairs",
-					"mv0": 31,
-					"mv1": 26,
+					"mv0": 26,
+					"mv1": 11,
+					"mv2": 25,
 					"regionIndex": 7,
 					"trickDifficulty": 0
 				},
 				{
 					"ballRequirement": true,
+					"ck0": "Stairs",
 					"mv0": 12,
 					"mv1": 25,
+					"regionIndex": 7,
+					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": true,
+					"ck0": "Stairs",
+					"mv0": 8,
+					"mv1": 13,
+					"regionIndex": 7,
+					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": true,
+					"ck0": "Stairs",
+					"mv0": 8,
+					"mv1": 32,
 					"regionIndex": 7,
 					"trickDifficulty": 0
 				}

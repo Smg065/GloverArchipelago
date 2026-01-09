@@ -970,12 +970,12 @@ class GloverWorld(World):
         #Weighted off the sum assuming there are entries, multiplied by the percentage of each type
         if filler_percentage != 0:
             filler_percentages = self.percents_sum_100(filler_percentages)
-            for each_filler in filler_percentages:
-                filler_percentages[each_filler] *= filler_percentage
+        for each_filler in filler_percentages:
+            filler_percentages[each_filler] *= filler_percentage
         if trap_percentage != 0:
             trap_percentages = self.percents_sum_100(trap_percentages)
-            for each_trap in trap_percentages:
-                trap_percentages[each_trap] *= trap_percentage
+        for each_trap in trap_percentages:
+            trap_percentages[each_trap] *= trap_percentage
         
         #Create the percentage table for calculation
         self.filler_percent_table = {**filler_percentages, **trap_percentages}

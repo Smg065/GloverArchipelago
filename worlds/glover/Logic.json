@@ -1354,6 +1354,14 @@
 						"NEEDS_BALL": true,
 						"REGION": 8,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 9,
+						"mv1": 32,
+						"mv2": 8,
+						"regionIndex": 4,
+						"trickDifficulty": 2
 					}
 				],
 				"D": [
@@ -11533,6 +11541,24 @@
 					"NEEDS_BALL": false,
 					"REGION": 0,
 					"TYPE": 2
+				},
+				{
+					"ballRequirement": true,
+					"mv0": 13,
+					"mv1": 8,
+					"mv2": 14,
+					"mv3": 9,
+					"regionIndex": 0,
+					"trickDifficulty": 2
+				},
+				{
+					"ballRequirement": true,
+					"mv0": 13,
+					"mv1": 8,
+					"mv2": 25,
+					"mv3": 14,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Underwater Lobster": [
@@ -14665,12 +14691,6 @@
 					"ck0": "Trampoline",
 					"mv0": 3,
 					"mv1": 25,
-					"regionIndex": 13,
-					"trickDifficulty": 0
-				},
-				{
-					"ballRequirement": false,
-					"ck0": "Trampoline",
 					"regionIndex": 13,
 					"trickDifficulty": 0
 				}
@@ -33049,6 +33069,12 @@
 					"ck0": "Carnival Gate",
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"mv0": 0,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Castle Cave Entry": [
@@ -33094,6 +33120,11 @@
 					"ck0": "Fortress of Fear Gate",
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Main": {
@@ -33140,6 +33171,13 @@
 					"ck0": "Out of This World Gate",
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"mv0": 3,
+					"mv1": 25,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Pirates Hub Entry": [
@@ -33155,6 +33193,11 @@
 					"ck0": "Pirate's Cove Gate",
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Prehistoric Hub Entry": [
@@ -33170,6 +33213,13 @@
 					"ck0": "Prehistoric Gate",
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": false,
+					"mv0": 3,
+					"mv1": 25,
+					"regionIndex": 0,
+					"trickDifficulty": 2
 				}
 			],
 			"Well Entry": [

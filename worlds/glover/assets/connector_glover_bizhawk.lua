@@ -13593,6 +13593,29 @@ function send_linked_item(linkName)
     elseif linkName == "LOW_GRAVITY" then
 		MISC_ITEMS_RECIEVED["LOW_GRAVITY"] = MISC_ITEMS_RECIEVED["LOW_GRAVITY"] + 1
         GVR:setItem(ITEM_TABLE["AP_LOW_GRAV"], MISC_ITEMS_RECIEVED["LOW_GRAVITY"])
+	elseif linkName == "RANDOM" then
+		local random_effect = {"DEATH",
+		"TAG",
+		"BOOMERANG",
+		"BEACHBALL",
+		"HERCULES",
+		"HELICOPTER",
+		"SPEED",
+		"FROG_SPELL",
+		"DEATH_SPELL",
+		"STICKY",
+		"BIG_BALL",
+		"LOW_GRAVITY",
+		"FROG",
+		"CAMERA",
+		"CURSE_BALL",
+		"CRYSTAL",
+		"TIP",
+		"FISH_EYE",
+		"ENEMY_BALL",
+		"CONTROL_BALL",
+		"INVISIBALL"}
+		send_linked_item(random_effect[math.random(21)])
 	else
 		print("Unknown Linked Item: "..linkName)
 	end

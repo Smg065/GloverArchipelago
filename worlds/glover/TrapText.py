@@ -165,6 +165,7 @@ def dynamic_trap_name_table(self) -> list[str]:
         trap_name_table.append("Jump")
     else:
         trap_name_table.append("Lump")
+        trap_name_table.append("Gump")
     
     #Misnamed Balls
     not_spawning_balls = [
@@ -292,5 +293,9 @@ def static_trap_name_table() -> list[str]:
         "Not a Cursed Ball Trap",
         "Not an Instant Crystal Trap",
         "Not a Camera Rotate Trap",
-        "Not a Tip Trap"
+        "Not a Tip Trap",
+        "Not a Fish Eye Trap",
+        "Not an Enemy Ball Trap",
+        "Not a Control Ball Trap",
+        "Not an Invisiball Trap"
     ]

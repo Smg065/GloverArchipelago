@@ -279,7 +279,7 @@ class GloverCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, GloverContext):
             async_start(self.ctx.link_table["TAG"].override_toggle(self.ctx), name="Update Taglink")
 
-    def _cmd_trapglink(self):
+    def _cmd_traplink(self):
         """Toggle traplink from client. Overrides default setting."""
         if isinstance(self.ctx, GloverContext):
             async_start(self.ctx.link_table["TRAP"].override_toggle(self.ctx), name="Update Traplink")
@@ -546,7 +546,7 @@ class Link():
     async def override_toggle(self, ctx : GloverContext):
         """Toggles the state of the link via client."""
         self.overriden = True
-        await self.update(not self.enabled)
+        await self.update(not self.enabled, ctx)
     
     def halt(self):
         """Stops processing of any link information."""
@@ -728,7 +728,7 @@ async def parse_payload(payload: dict, ctx: GloverContext, force: bool):
             if ctx.link_table[link_name].enabled:
                 match link_name:
                     case "DEATH":
-                        await ctx.send_death()
+                        await ctx.send_death(payload["playerName"] + "'s Glover died!")
                     case "TAG":
                         await ctx.send_tag_link()
         else:

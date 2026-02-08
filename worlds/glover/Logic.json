@@ -12011,6 +12011,11 @@
 						"mv2": 26,
 						"regionIndex": 7,
 						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"regionIndex": 7,
+						"trickDifficulty": 1
 					}
 				],
 				"D": [
@@ -31008,7 +31013,7 @@
 						"ballRequirement": true,
 						"mv0": 10,
 						"mv1": 14,
-						"regionIndex": 16,
+						"regionIndex": 17,
 						"trickDifficulty": 0
 					}
 				],

@@ -337,7 +337,7 @@ class GloverContext(CommonContext):
                 "SPEED" : {"Accepts" : ["Fast Trap"]},
                 "LOW_GRAVITY" : {"Accepts" : ["Gravity Trap"]},
                 #Dev Items activated by traps
-                "DEATH" : {"Accepts" : ["Instant Death Trap"]},
+                #"DEATH" : {"Accepts" : ["Instant Death Trap"]},
                 "TAG" : {"Accepts" : ["Tool Swap Trap"]},
                 "RANDOM" : {"Accepts" : ["Chart Modifier Trap" "Random Status Trap"]}
                 })

@@ -1,7 +1,7 @@
 import gc
 import logging
 import math
-from typing import Any, Dict
+from typing import Any, Dict, TextIO
 
 from BaseClasses import ItemClassification, Location, MultiWorld, Tutorial, Item, Region
 from Options import Accessibility, OptionError, OptionGroup
@@ -17,7 +17,7 @@ from .Presets import glover_option_presets
 from .Options import DifficultyLogic, GaribLogic, GloverOptions, GaribSorting, StartingBall, VictoryCondition
 from .JsonReader import build_data, generate_location_information
 from .ItemPool import construct_blank_world_garibs, generate_item_name_to_id, generate_item_name_groups, find_item_data, world_garib_table, decoupled_garib_table, garibsanity_world_table, checkpoint_table, level_event_table, move_table, potion_table, portalsanity_table
-from Utils import local_path, visualize_regions
+from Utils import local_path, visualize_regions, VersionException
 from .Hints import create_hints
 
 def run_client():
@@ -195,14 +195,15 @@ class GloverWorld(World):
     """
     Glover is an N64 physics puzzle platforming game.
     """
-    game : str = "Glover"
-    version : str = "V1.0"
+    game: str = "Glover"
+    version: str = "V1.0"
     web = GloverWeb()
     topology_present = True
     settings: GloverSettings
     settings_key = "glover_options"
     options_dataclass = GloverOptions
-    options : GloverOptions
+    options: GloverOptions
+    ut_can_gen_without_yaml: bool = True
 
     #Check/Item Prefixes
     world_prefixes = ["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"]
@@ -220,6 +221,10 @@ class GloverWorld(World):
 	"Sinks",
 	"Floats",
 	"Ball Up"]
+
+    lua_prefixes = ["AP_ATLANTIS", "AP_CARNIVAL", "AP_PIRATES", "AP_PREHISTORIC", "AP_FORTRESS", "AP_SPACE",
+                    "AP_TRAINING"]
+    lua_suffixes = ["_L1", "_L2", "_L3", "_BOSS", "_BONUS", "_WORLD"]
 
     item_name_to_id = generate_item_name_to_id(world_prefixes, level_prefixes)
     item_name_groups = generate_item_name_groups()
@@ -387,6 +392,21 @@ class GloverWorld(World):
             return self.world_prefixes.index(name[:3])
         if name.startswith("Hubworld") or name.startswith("Castle Cave") or name.startswith("Training"):
             return 6
+        return -1
+
+    def level_from_lua_string(self, lua_name: str) -> int:
+        split_index = lua_name.find("_", 3)
+        if lua_name[split_index:] in self.lua_suffixes:
+            return self.lua_suffixes.index(lua_name[split_index:]) + 1
+        return -1
+
+    def world_from_lua_string(self, lua_name: str) -> int:
+        split_index = lua_name.find("_", 3)
+        if lua_name[:split_index] in self.lua_prefixes:
+            world_index = self.lua_prefixes.index(lua_name[:split_index])
+            if world_index >= 6:
+                world_index = 5
+            return world_index
         return -1
 
     def set_highest_valid_checkpoints(self):
@@ -706,6 +726,14 @@ class GloverWorld(World):
         self.multiworld.push_precollected(self.create_item(self.starting_ball))
 
     def generate_early(self):
+        if hasattr(self.multiworld, "re_gen_passthrough"):
+            if self.game in self.multiworld.re_gen_passthrough:
+                slot_data: dict[str, Any] = self.multiworld.re_gen_passthrough[self.game]
+                if slot_data["version"] != self.version:
+                    err_string: str = f"Glover APWorld version mismatch. Multiworld generated with " \
+                                     f"{slot_data['version']}; local install using {self.version}"
+                    raise VersionException(err_string)
+                self.overwrite_options(self.multiworld.re_gen_passthrough[self.game])
         #Set the valid spawning checkpoints
         self.set_highest_valid_checkpoints()
         #Check if garibs are filler or not
@@ -1433,38 +1461,40 @@ class GloverWorld(World):
         return super().connect_entrances()
 
     def build_options(self):
-        options = {}
-        options["victory_condition"] = self.options.victory_condition.value
-        options["required_crystals"] = self.options.required_crystals.value
-        options["required_golden_garibs"] = self.options.required_golden_garibs.value
-        options["difficulty_logic"] = self.options.difficulty_logic.value
-        options["death_link"] = self.options.death_link.value
-        options["tag_link"] = self.options.tag_link.value
-        options["trap_link"] = self.options.trap_link.value
-        options["starting_ball"] = self.options.starting_ball.value
-        options["garib_logic"] = self.options.garib_logic.value
-        options["garib_sorting"] = self.options.garib_sorting.value
-        options["mad_garibs"] = self.options.mad_garibs.value
-        options["random_garib_sounds"] = self.options.random_garib_sounds.value
-        options["entrance_randomizer"] = self.options.entrance_randomizer.value
-        options["portalsanity"] = self.options.portalsanity.value
-        options["open_worlds"] = self.options.open_worlds.value
-        options["open_levels"] = self.options.open_levels.value
-        options["randomized_spawns"] = self.options.spawning_checkpoint_randomizer.value
-        options["bonus_levels"] = self.options.bonus_levels.value
-        options["randomize_jump"] = self.options.randomize_jump.value
-        options["include_power_ball"] = self.options.include_power_ball.value
-        options["checkpoint_checks"] = self.options.checkpoint_checks.value
-        options["switches_checks"] = self.options.switches_checks.value
-        options["mr_tip_checks"] = self.options.mr_tip_checks.value
-        options["enemysanity"] = self.options.enemysanity.value
-        options["insectity"] = self.options.insectity.value
-        options["easy_ball_walk"] = self.options.easy_ball_walk.value
-        options["mr_hints"] = self.options.mr_hints.value
-        options["mr_hints_scouts"] = self.options.mr_hints_scouts.value
-        options["mr_tip_text_display"] = self.options.mr_tip_text_display.value
-        options["chicken_hints"] = self.options.chicken_hints.value
-        options["extra_garibs_value"] = self.options.extra_garibs_value.value
+        options: dict[str, Any] = self.options.as_dict(
+            "victory_condition",
+            "required_crystals",
+            "required_golden_garibs",
+            "difficulty_logic",
+            "death_link",
+            "tag_link",
+            "trap_link",
+            "starting_ball",
+            "garib_logic",
+            "garib_sorting",
+            "mad_garibs",
+            "random_garib_sounds",
+            "entrance_randomizer",
+            "portalsanity",
+            "open_worlds",
+            "open_levels",
+            "spawning_checkpoint_randomizer",
+            "bonus_levels",
+            "randomize_jump",
+            "include_power_ball",
+            "checkpoint_checks",
+            "switches_checks",
+            "mr_tip_checks",
+            "enemysanity",
+            "insectity",
+            "easy_ball_walk",
+            "mr_hints",
+            "mr_hints_scouts",
+            "mr_tip_text_display",
+            "chicken_hints",
+            "extra_garibs_value"
+        )
+
         options["filler_duration"] = self.calculate_duration()
 
         options["player_name"] = self.multiworld.player_name[self.player]
@@ -1511,14 +1541,12 @@ class GloverWorld(World):
         return slot_scores
 
     def lua_world_name(self, original_name):
-        lua_prefixes = ["AP_ATLANTIS", "AP_CARNIVAL", "AP_PIRATES", "AP_PREHISTORIC", "AP_FORTRESS", "AP_SPACE", "AP_TRAINING"]
-        lua_suffixes = ["_L1", "_L2", "_L3", "_BOSS", "_BONUS", "_WORLD"]
         world_index : int = self.world_from_string(original_name)
         level_index : int = self.level_from_string(original_name) - 1
         if world_index >= 6:
             level_index = 5
-        lua_prefix = lua_prefixes[world_index]
-        lua_suffix = lua_suffixes[level_index]
+        lua_prefix = self.lua_prefixes[world_index]
+        lua_suffix = self.lua_suffixes[level_index]
         return lua_prefix + lua_suffix
 
     def lua_decoupled_garib_order(self) -> dict[str, str]:
@@ -1557,3 +1585,78 @@ class GloverWorld(World):
         options["garib_order"] = self.lua_decoupled_garib_order()
         options["spawning_checkpoints"] = self.spawn_checkpoint
         return options
+
+    def overwrite_options(self, slot_data: dict[str, Any]):
+        # Only bother with overwriting options that are relevant to logic
+        self.options.victory_condition.value = slot_data["victory_condition"]
+        self.options.required_crystals.value = slot_data["required_crystals"]
+        self.options.required_golden_garibs.value = slot_data["required_golden_garibs"]
+        self.options.difficulty_logic.value = slot_data["difficulty_logic"]
+        self.options.garib_logic.value = slot_data["garib_logic"]
+        self.options.garib_sorting.value = slot_data["garib_sorting"]
+        self.options.entrance_randomizer.value = slot_data["entrance_randomizer"]
+        self.options.portalsanity.value = slot_data["portalsanity"]
+        self.options.open_worlds.value = slot_data["open_worlds"]
+        self.options.open_levels.value = slot_data["open_levels"]
+        self.options.spawning_checkpoint_randomizer.value = slot_data["spawning_checkpoint_randomizer"]
+        self.options.bonus_levels.value = slot_data["bonus_levels"]
+        self.options.checkpoint_checks.value = slot_data["checkpoint_checks"]
+        self.options.switches_checks.value = slot_data["switches_checks"]
+        self.options.mr_tip_checks.value = slot_data["mr_tip_checks"]
+        self.options.enemysanity.value = slot_data["enemysanity"]
+        self.options.insectity.value = slot_data["insectity"]
+        self.options.extra_garibs_value.value = slot_data["extra_garibs_value"]
+        # Don't generate a PUML during UT gen (unless debugging)
+        self.options.generate_puml.value = False
+        # Parse Score checks
+        self.parse_score_checks(slot_data["score_checks"])
+        # Create the overrides
+        self.parse_entrance_overrides(slot_data["world_lookup"])
+        self.parse_garib_overrides(slot_data["garib_order"])
+        self.parse_spawning_overrides(slot_data["spawning_checkpoints"])
+
+    def parse_score_checks(self, score_checks: dict[str, Any]):
+        level_scores: dict[str, int] = {}
+        for lua_level_name, score_value in score_checks.items():
+            if lua_level_name == "TOTAL":
+                self.options.total_scores.value = set([str(score) for score in score_value])
+                continue
+            world_index: int = self.world_from_lua_string(lua_level_name)
+            level_index: int = self.level_from_lua_string(lua_level_name)
+            override_key: str = f"{self.world_prefixes[world_index]}{self.level_prefixes[level_index]}"
+            level_scores[override_key] = score_value
+        self.options.level_scores.value = level_scores
+
+    def parse_entrance_overrides(self, world_lookup: dict[str, int]):
+        entrance_overrides: dict[str, str] = {}
+        for lua_level_name, entrance_position in world_lookup.items():
+            if lua_level_name == "AP_TRAINING_WORLD":
+                continue
+            key_world_index: int = self.world_from_lua_string(lua_level_name)
+            key_level_index: int = self.level_from_lua_string(lua_level_name)
+            override_key: str = f"{self.world_prefixes[key_world_index]}{self.level_prefixes[key_level_index]}"
+            value_world_index: int = int(entrance_position / 10) - 1
+            value_level_index: int = int(entrance_position % 10)
+            override_value: str = f"{self.world_prefixes[value_world_index]}{self.level_prefixes[value_level_index]}"
+            entrance_overrides[override_key] = override_value
+        self.options.entrance_overrides.value = entrance_overrides
+
+    def parse_garib_overrides(self, garib_order: dict[int, str]):
+        garib_order_overrides: dict[str, int] = {}
+        for garib_index, lua_level_garib_name in garib_order.items():
+            lua_level_name: str = lua_level_garib_name.removesuffix("_GARIBS")
+            world_index: int = self.world_from_lua_string(lua_level_name)
+            level_index: int = self.level_from_lua_string(lua_level_name)
+            override_key: str = f"{self.world_prefixes[world_index]}{self.level_prefixes[level_index]}"
+            garib_order_overrides[override_key] = int(garib_index)
+        self.options.garib_order_overrides.value = garib_order_overrides
+
+    def parse_spawning_overrides(self, spawning_checkpoints: list[int]):
+        checkpoint_overrides: dict[str, int] = {}
+        for index, spawning_checkpoint in enumerate(spawning_checkpoints):
+            world_index: int = int(index/3)
+            # we want indices 1, 2, and 3 for level index
+            level_index: int = (index % 3) + 1
+            override_key: str = f"{self.world_prefixes[world_index]}{self.level_prefixes[level_index]}"
+            checkpoint_overrides[override_key] = spawning_checkpoint
+        self.options.checkpoint_overrides.value = checkpoint_overrides

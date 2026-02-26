@@ -1598,7 +1598,10 @@ class GloverWorld(World):
         self.options.portalsanity.value = slot_data["portalsanity"]
         self.options.open_worlds.value = slot_data["open_worlds"]
         self.options.open_levels.value = slot_data["open_levels"]
-        self.options.spawning_checkpoint_randomizer.value = slot_data["spawning_checkpoint_randomizer"]
+        if "spawning_checkpoint_randomizer" in slot_data:
+            self.options.spawning_checkpoint_randomizer.value = slot_data["spawning_checkpoint_randomizer"]
+        else:
+            self.options.spawning_checkpoint_randomizer.value = slot_data["randomized_spawns"]
         self.options.bonus_levels.value = slot_data["bonus_levels"]
         self.options.checkpoint_checks.value = slot_data["checkpoint_checks"]
         self.options.switches_checks.value = slot_data["switches_checks"]

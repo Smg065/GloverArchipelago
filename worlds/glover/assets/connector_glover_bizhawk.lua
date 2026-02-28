@@ -12424,10 +12424,10 @@ function garib_completion_check()
 		then
     		local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
     		local world_address = hackPointerIndex + GVR:getWorldOffset(WORLD_ID)
-			local starred_address = world_address + GVR.starred
-    		local check_value = mainmemory.readbyte(starred_address)
+			local garib_all_collected_address = world_address + GVR.garib_all_collected
+    		local check_value = mainmemory.readbyte(garib_all_collected_address)
 			local world_id = WORLDS_TABLE[WORLD_NAME]
-			local address_mod = (math.floor(world_id / 5) * 10) + (world_id % 5)
+			local address_mod = (math.floor((world_id - 1) / 5) * 10) + ((world_id - 1) % 5) + 1
 			local apId = address_mod + 30000
     		checks[tostring(apId)] = check_value
 		end

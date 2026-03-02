@@ -3,7 +3,7 @@ import logging
 import math
 from typing import Any, Dict, TextIO
 
-from BaseClasses import ItemClassification, Location, MultiWorld, Tutorial, Item, Region
+from BaseClasses import ItemClassification, Location, MultiWorld, Tutorial, Item, Region, Entrance
 from Options import Accessibility, OptionError, OptionGroup
 from .MrTipText import generate_tip_table
 from .TrapText import static_trap_name_table, dynamic_trap_name_table, select_trap_item_name
@@ -203,7 +203,11 @@ class GloverWorld(World):
     settings_key = "glover_options"
     options_dataclass = GloverOptions
     options: GloverOptions
+
+    # Universal Tracker related data
     ut_can_gen_without_yaml: bool = True
+    using_ut: bool
+    visited_worlds: int
 
     #Check/Item Prefixes
     world_prefixes = ["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"]
@@ -373,6 +377,9 @@ class GloverWorld(World):
         #Filler Item Counts
         self.filler_item_counts : dict[str, int] = {}
         self.filler_percent_table : dict[str, float] = {}
+
+        #Universal Tracker data
+        self.visited_worlds = 0
 
         super(GloverWorld, self).__init__(world, player)
 
@@ -726,6 +733,7 @@ class GloverWorld(World):
         self.multiworld.push_precollected(self.create_item(self.starting_ball))
 
     def generate_early(self):
+        self.using_ut = False
         if hasattr(self.multiworld, "re_gen_passthrough"):
             if self.game in self.multiworld.re_gen_passthrough:
                 slot_data: dict[str, Any] = self.multiworld.re_gen_passthrough[self.game]
@@ -734,6 +742,8 @@ class GloverWorld(World):
                                      f"{slot_data['version']}; local install using {self.version}"
                     raise VersionException(err_string)
                 self.overwrite_options(self.multiworld.re_gen_passthrough[self.game])
+                self.using_ut = True
+                self.found_entrances_datastorage_key = "Glover_{team}_{player}_visited_worlds"
         #Set the valid spawning checkpoints
         self.set_highest_valid_checkpoints()
         #Check if garibs are filler or not
@@ -1167,9 +1177,13 @@ class GloverWorld(World):
                 connecting_level_name : str = self.wayroom_entrances[offset]
                 if connecting_level_name.endswith('?') and not self.options.bonus_levels:
                     continue
-                connecting_level : Region = multiworld.get_region(connecting_level_name, player)
                 entry_region : Region = multiworld.get_location(location_name, player).parent_region
-                entry_region.connect(connecting_level, location_name, lambda state, each_location = location_name: state.can_reach_location(each_location, player))
+                if self.using_ut and self.options.entrance_randomizer and self.multiworld.enforce_deferred_connections != "off":
+                    hub_exit: Entrance = entry_region.create_exit(location_name)
+                    set_rule(hub_exit, lambda state, each_location = location_name: state.can_reach_location(each_location, player))
+                else:
+                    connecting_level : Region = multiworld.get_region(connecting_level_name, player)
+                    entry_region.connect(connecting_level, location_name, lambda state, each_location = location_name: state.can_reach_location(each_location, player))
                 
                 #Default portal and star positions
                 if not self.options.portalsanity:
@@ -1663,3 +1677,29 @@ class GloverWorld(World):
             override_key: str = f"{self.world_prefixes[world_index]}{self.level_prefixes[level_index]}"
             checkpoint_overrides[override_key] = spawning_checkpoint
         self.options.checkpoint_overrides.value = checkpoint_overrides
+
+    # Universal Tracker function; do not rename
+    def reconnect_found_entrances(self, key: str, value: Any) -> None:
+
+        def bit_iterator(bits):
+            while bits:
+                bit = bits & (~bits + 1)
+                yield int(math.log2(bit))
+                bits ^= bit
+
+        if value is None or key is None or self.multiworld.enforce_deferred_connections == "off":
+            return
+        if value | self.visited_worlds != self.visited_worlds:
+            new_bits: int = value & (~self.visited_worlds)
+            for bit_index in bit_iterator(new_bits):
+                world_name: str = self.existing_levels[bit_index]
+                hub_level_name: str = self.options.entrance_overrides.value[world_name]
+                hub_entrance_name: str = hub_level_name[:3] + "H: Entry " + hub_level_name[3:]
+                if hub_entrance_name.endswith("?"):
+                    hub_entrance_name = hub_entrance_name.replace("?", "Bonus")
+                if hub_entrance_name.endswith("!"):
+                    hub_entrance_name = hub_entrance_name.replace("!", "Boss")
+                hub_entrance: Entrance = self.get_entrance(hub_entrance_name)
+                connecting_world: Region = self.get_region(world_name)
+                hub_entrance.connect(connecting_world)
+            self.visited_worlds |= new_bits

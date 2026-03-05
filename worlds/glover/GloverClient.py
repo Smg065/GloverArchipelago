@@ -319,6 +319,7 @@ class GloverContext(CommonContext):
 
         self.current_world = 0
         self.current_hub = 0
+        self.visited_worlds = 0 # bit field; least significant bit is Atl1, most is OtW?
         self.link_table : dict[str, Link] = {
             "DEATH" : BounceLink("DEATH", "DeathLink"),
             "TAG" : BounceLink("TAG", "TagLink"),
@@ -462,6 +463,10 @@ class GloverContext(CommonContext):
             self.link_table["TAG"].enabled = bool(self.slot_data["tag_link"])
             self.link_table["TRAP"].enabled = bool(self.slot_data["trap_link"])
             self.n64_sync_task = asyncio.create_task(n64_sync_task(self), name="N64 Sync")
+            async_start(self.send_msgs([{
+                "cmd": "Get",
+                "keys": [f"Glover_{self.team}_{self.slot}_visited_worlds"]
+            }]))
         elif cmd == "ReceivedItems":
             self.tracker.refresh_items()
             if self.startup == False:
@@ -479,6 +484,10 @@ class GloverContext(CommonContext):
                     logger.info(player + " sent " + item_name)
                 logger.info("The above items will be sent when Glover is loaded.")
                 self.startup = True
+        elif cmd == "Retrieved":
+            if f"Glover_{self.team}_{self.slot}_visited_worlds" in args["keys"]:
+                if args["keys"][f"Glover_{self.team}_{self.slot}_visited_worlds"] is not None:
+                    self.visited_worlds = args["keys"][f"Glover_{self.team}_{self.slot}_visited_worlds"]
         if isinstance(args, dict) and isinstance(args.get("data", {}), dict):
             source_name = args.get("data", {}).get("source", None)
             if not hasattr(self, "instance_id"):
@@ -658,6 +667,11 @@ def get_payload(ctx: GloverContext):
     return payload
 
 def get_slot_payload(ctx: GloverContext):
+    spawning_checkpoint_randomizer: int
+    if "spawning_checkpoint_randomizer" in ctx.slot_data:
+        spawning_checkpoint_randomizer = ctx.slot_data["spawning_checkpoint_randomizer"]
+    else:
+        spawning_checkpoint_randomizer = ctx.slot_data["randomized_spawns"]
     payload = json.dumps({
             "slot_player": ctx.slot_data["player_name"],
             "slot_seed": ctx.slot_data["seed"],
@@ -678,7 +692,7 @@ def get_slot_payload(ctx: GloverContext):
             "slot_switches": ctx.slot_data["switches_checks"],
             "slot_easy_ball_walk": ctx.slot_data["easy_ball_walk"],
             "slot_checkpoint_checks": ctx.slot_data["checkpoint_checks"],
-            "slot_randomized_spawns": ctx.slot_data["randomized_spawns"],
+            "slot_randomized_spawns": spawning_checkpoint_randomizer,
             "slot_mr_tip_text_display":ctx.slot_data["mr_tip_text_display"],
             "slot_mr_tips_text":ctx.slot_data["mr_tips_text"],
             "slot_filler_duration":ctx.slot_data["filler_duration"],
@@ -1024,6 +1038,21 @@ async def parse_payload(payload: dict, ctx: GloverContext, force: bool):
                 "operations": [{"operation": "replace",
                     "value": hex(glover_world)}]
             }])
+            bit_position: int = glover_world
+            if (0x09 < bit_position < 0x27) or (bit_position == 0x29):
+                if bit_position == 0x29:
+                    bit_position = 0x27
+                bit_position -= 0x0A
+                world_mask: int = 1 << bit_position
+                if world_mask & ctx.visited_worlds == 0:
+                    ctx.visited_worlds |= world_mask
+                    await ctx.send_msgs([{
+                        "cmd": "Set",
+                        "key": f"Glover_{ctx.team}_{ctx.slot}_visited_worlds",
+                        "default": 0,
+                        "want_reply": False,
+                        "operations": [{"operation": "or", "value": world_mask}]
+                    }])
         if ctx.current_hub != glover_hub:
             ctx.current_hub = glover_hub
             await ctx.send_msgs([{

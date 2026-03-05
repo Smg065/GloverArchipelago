@@ -12440,7 +12440,7 @@ function garib_completion_check()
 				if WORLDS_TABLE[base_name] ~= nil
 				then
 					local world_id = WORLDS_TABLE[base_name]
-					local address_mod = (math.floor(world_id / 5) * 10) + (world_id % 5)
+					local address_mod = (math.floor((world_id - 1) / 5) * 10) + ((world_id - 1) % 5) + 1
 					local apId = address_mod + 30000
 					checks[tostring(apId)] = true
 				end

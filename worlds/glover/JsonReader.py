@@ -446,9 +446,7 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
             if self.options.garib_logic == GaribLogic.option_garibsanity:
                 for each_garib_index in range(len(each_location_data.ap_ids)):
                     each_garib = each_location_data.ap_ids[each_garib_index]
-                    location_name : str = each_location_data.name.removesuffix("s")
-                    location_name += " " + str(each_garib_index + 1)
-                    location : Location = Location(player, location_name, each_garib, region_for_use)
+                    location : Location = Location(player, self.location_id_to_name[each_garib], each_garib, region_for_use)
                     region_for_use.locations.append(location)
                     if not rules_applied:
                         access_methods_to_rules(self, each_location_data.methods, location)

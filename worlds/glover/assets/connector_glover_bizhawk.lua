@@ -12378,11 +12378,13 @@ end
 
 function garib_group_contruction()
     local checks = {}
-    if GARIB_GROUPS == true and GARIB_GROUPS_MAP[WORLD_NAME] ~= nil
+    if (GARIB_GROUPS == true or LEVEL_GARIBS == true) and GARIB_GROUPS_MAP[WORLD_NAME] ~= nil
     then
+
+	    local level_all_pass = true
         for group_name,group_info in pairs(GARIB_GROUPS_MAP[WORLD_NAME])
         do
-            local all_pass = true
+            local group_all_pass = true
             for _,garib_id in pairs(GARIB_GROUPS_MAP[WORLD_NAME][group_name]["garibs"])
             do
                 if ADDRESS_MAP[WORLD_NAME]["GARIBS"][garib_id] ~= nil
@@ -12391,7 +12393,8 @@ function garib_group_contruction()
                     local num_id = ADDRESS_MAP[WORLD_NAME]["GARIBS"][garib_id]["id"]
                     if GVR:checkLocationFlag(WORLD_ID, "garib", offset, num_id) == false
                     then
-                        all_pass = false
+                        group_all_pass = false
+                        level_all_pass = false
                     end
                 elseif ADDRESS_MAP[WORLD_NAME]["ENEMY_GARIBS"] ~= nil
 				then
@@ -12405,33 +12408,31 @@ function garib_group_contruction()
                 	    local object_id = ADDRESS_MAP[WORLD_NAME]["ENEMY_GARIBS"][garib_id]['object_id']
                 	    if GVR:checkEnemyGaribLocationFlag(WORLD_ID, offset_list, object_id) == false
                 	    then
-                	        all_pass = false
+							group_all_pass = false
+							level_all_pass = false
                 	    end
                 	end
 				end
             end
-            checks[group_info["id"]] = all_pass
+
+			if GARIB_GROUPS == true then
+                checks[group_info["id"]] = group_all_pass
+			end
         end
+
+		if LEVEL_GARIBS == true and level_all_pass == true then
+			local world_id = WORLDS_TABLE[WORLD_NAME]
+			local address_mod = (math.floor((world_id - 1) / 5) * 10) + ((world_id - 1) % 5) + 1
+			local apId = address_mod + 30000
+    		checks[tostring(apId)] = level_all_pass
+		end
     end
     return checks
 end
 
 function garib_completion_check()
     local checks = {}
-	if LEVEL_GARIBS then
-		-- Level All Garibs Checks
-		if TOTAL_WORLD_GARIBS[WORLD_NAME.."_GARIBS"] ~= nil
-		then
-    		local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
-    		local world_address = hackPointerIndex + GVR:getWorldOffset(WORLD_ID)
-			local garib_all_collected_address = world_address + GVR.garib_all_collected
-    		local check_value = mainmemory.readbyte(garib_all_collected_address)
-			local world_id = WORLDS_TABLE[WORLD_NAME]
-			local address_mod = (math.floor((world_id - 1) / 5) * 10) + ((world_id - 1) % 5) + 1
-			local apId = address_mod + 30000
-    		checks[tostring(apId)] = check_value
-		end
-	else
+	if LEVEL_GARIBS == false then
 		-- Garib Items All Garibs Checks
 		for each_world, current_garibs in pairs(TOTAL_WORLD_GARIBS)
 		do
@@ -13113,7 +13114,7 @@ function map_handler()
         set_map("AP_CARNIVAL_BOSS")
     elseif CURRENT_MAP == 0x13 then
         set_map("AP_CARNIVAL_BONUS")
-    
+
     elseif CURRENT_MAP == 0x14 then
         set_map("AP_PIRATES_L1")
     elseif CURRENT_MAP == 0x15 then

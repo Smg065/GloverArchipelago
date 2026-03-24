@@ -502,7 +502,8 @@ class GloverWorld(World):
         #Level garibs shouldn't show up
         if self.options.garib_logic == GaribLogic.option_level_garibs and self.options.filler_extra_garibs_weight.value > 0:
             raise OptionError("Extra garibs cannot show up while garib logic is by level! Set your Filler Extra Garibs to 0.")
-        if self.options.victory_condition.value == VictoryCondition.option_golden_garibs:
+        if self.options.victory_condition.value == VictoryCondition.option_golden_garibs and not self.using_ut:
+            #Skip this validation when using Universal Tracker because it can incorrectly lower the required Golden Garib count
             self.validate_golden_garibs()
 
     def validate_golden_garibs(self):

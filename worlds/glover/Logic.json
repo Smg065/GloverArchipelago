@@ -9406,13 +9406,6 @@
 				{
 					"ballRequirement": true,
 					"mv0": 8,
-					"mv1": 13,
-					"regionIndex": 0,
-					"trickDifficulty": 0
-				},
-				{
-					"ballRequirement": true,
-					"mv0": 8,
 					"mv1": 32,
 					"regionIndex": 0,
 					"trickDifficulty": 0
@@ -11530,7 +11523,7 @@
 				],
 				"I": 3
 			},
-			"Trapped Lighthosue Life": [
+			"Trapped Lighthouse Life": [
 				{
 					"AP_IDS": [
 						"0x2C6"
@@ -11541,24 +11534,6 @@
 					"NEEDS_BALL": false,
 					"REGION": 0,
 					"TYPE": 2
-				},
-				{
-					"ballRequirement": true,
-					"mv0": 13,
-					"mv1": 8,
-					"mv2": 14,
-					"mv3": 9,
-					"regionIndex": 0,
-					"trickDifficulty": 2
-				},
-				{
-					"ballRequirement": true,
-					"mv0": 13,
-					"mv1": 8,
-					"mv2": 25,
-					"mv3": 14,
-					"regionIndex": 0,
-					"trickDifficulty": 2
 				}
 			],
 			"Underwater Lobster": [
@@ -12813,6 +12788,14 @@
 						"NEEDS_BALL": true,
 						"REGION": 25,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 8,
+						"mv1": 13,
+						"mv2": 11,
+						"regionIndex": 25,
+						"trickDifficulty": 0
 					}
 				],
 				"D": [
@@ -14180,6 +14163,15 @@
 						"NEEDS_BALL": true,
 						"REGION": 3,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 32,
+						"mv1": 8,
+						"mv2": 11,
+						"mv3": 2,
+						"regionIndex": 3,
+						"trickDifficulty": 0
 					}
 				],
 				"D": [
@@ -15040,6 +15032,8 @@
 					"ballRequirement": true,
 					"mv0": 8,
 					"mv1": 13,
+					"mv2": 3,
+					"mv3": 25,
 					"regionIndex": 0,
 					"trickDifficulty": 0
 				},
@@ -15047,6 +15041,8 @@
 					"ballRequirement": true,
 					"mv0": 8,
 					"mv1": 32,
+					"mv2": 3,
+					"mv3": 25,
 					"regionIndex": 0,
 					"trickDifficulty": 0
 				},
@@ -15055,6 +15051,8 @@
 					"mv0": 26,
 					"mv1": 27,
 					"mv2": 8,
+					"mv3": 3,
+					"mv4": 25,
 					"regionIndex": 0,
 					"trickDifficulty": 1
 				},
@@ -22255,13 +22253,13 @@
 					"TYPE": 2
 				},
 				{
-					"ballRequirement": false,
+					"ballRequirement": true,
 					"mv0": 8,
 					"regionIndex": 0,
 					"trickDifficulty": 0
 				},
 				{
-					"ballRequirement": false,
+					"ballRequirement": true,
 					"regionIndex": 0,
 					"trickDifficulty": 1
 				}
@@ -23446,6 +23444,7 @@
 					},
 					{
 						"ballRequirement": true,
+						"ck0": "Drawbridge",
 						"mv0": 31,
 						"mv1": 26,
 						"mv2": 0,
@@ -23454,10 +23453,17 @@
 					},
 					{
 						"ballRequirement": true,
+						"ck0": "Drawbridge",
 						"mv0": 8,
 						"mv1": 26,
 						"regionIndex": 15,
 						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 19,
+						"regionIndex": 7,
+						"trickDifficulty": 1
 					}
 				],
 				"D": [
@@ -32626,6 +32632,13 @@
 					"mv0": 19,
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": true,
+					"mv0": 8,
+					"mv1": 32,
+					"regionIndex": 0,
+					"trickDifficulty": 1
 				}
 			],
 			"Column B Garibs": [
@@ -32692,6 +32705,13 @@
 					"mv0": 19,
 					"regionIndex": 0,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": true,
+					"mv0": 8,
+					"mv1": 32,
+					"regionIndex": 0,
+					"trickDifficulty": 1
 				}
 			],
 			"Column D Garibs": [

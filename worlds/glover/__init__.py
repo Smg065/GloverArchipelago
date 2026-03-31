@@ -572,7 +572,7 @@ class GloverWorld(World):
 
     def valid_override_level_name(self, in_level : str, allow_bosses : bool = True, allow_bonuses : bool = True) -> bool:
         end_options = ["1", "2", "3"]
-        if self.options.bonus_levels and allow_bonuses:
+        if (self.options.bonus_levels or self.using_ut) and allow_bonuses:
             end_options.append("?")
         if allow_bosses:
             end_options.append("!")

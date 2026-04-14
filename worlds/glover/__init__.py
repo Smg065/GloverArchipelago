@@ -1697,6 +1697,8 @@ class GloverWorld(World):
                 hub_level_name: str = self.options.entrance_overrides.value[world_name]
                 hub_entrance_name: str = hub_level_name[:3] + "H: Entry " + hub_level_name[3:]
                 if hub_entrance_name.endswith("?"):
+                    if not self.options.bonus_levels:
+                        continue
                     hub_entrance_name = hub_entrance_name.replace("?", "Bonus")
                 if hub_entrance_name.endswith("!"):
                     hub_entrance_name = hub_entrance_name.replace("!", "Boss")

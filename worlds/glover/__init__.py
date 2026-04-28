@@ -196,7 +196,7 @@ class GloverWorld(World):
     Glover is an N64 physics puzzle platforming game.
     """
     game: str = "Glover"
-    version: str = "V1.0"
+    version: str = "V1.1"
     web = GloverWeb()
     topology_present = True
     settings: GloverSettings
@@ -284,7 +284,7 @@ class GloverWorld(World):
         return -1
 
     def __init__(self, world, player):
-        self.version = "V1.0"
+        self.version = "V1.1"
         self.spawn_checkpoint = [
             2,3,3,
             4,5,4,

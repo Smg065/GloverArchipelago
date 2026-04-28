@@ -11,7 +11,7 @@ local math = require('math')
 require('common')
 
 local SCRIPT_VERSION = 1
-local GVR_VERSION = "V1.0"
+local GVR_VERSION = "V1.1"
 local PLAYER = ""
 local SEED = 0
 
@@ -474,6 +474,7 @@ local ROM_ITEM_TABLE = {
     "AP_SPACE_DOOR4_OPEN",
     "AP_SPACE_DOOR5_OPEN",
 	"AP_DEBUG",
+	"AP_OPEN_WORLDS_X_BOSSES"
     "AP_MAX_ITEM",
 };
 

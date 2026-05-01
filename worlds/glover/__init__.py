@@ -1197,6 +1197,15 @@ class GloverWorld(World):
                     #Garibsanity only manually places the second 'boss clear' location
                     self.portalsanity_plugs(connecting_level_name, wayroom_name, entry_index)
             
+            #Open Level Bosslock locks the boss gate behind 3 boss keys placed during populate goals and marks
+            if self.options.open_world_bosslock:
+                required_keys = [wayroom_name + " Key 1",
+                wayroom_name + " Key 2",
+                wayroom_name + " Key 3"]
+                boss_unlock_location : Location = Location(self.player, wayroom_name + " Boss Unlock", None, hubroom)
+                self.set_rule(boss_unlock_location, lambda state, wayroom_keys = required_keys: state.has_all(wayroom_keys, self.player))
+                boss_unlock_location.place_locked_item(self.create_event(wayroom_name + " Boss Gate"))
+
             #Getting all garibs from non-boss levels opens the last gate
             if self.options.bonus_levels and not self.options.portalsanity:
                 bonus_unlock : Location
@@ -1419,26 +1428,32 @@ class GloverWorld(World):
         #Map Generation
         goal_item : Item
         all_garibs_item : Item
-        #What fixed item is there?
-        match entry_index:
-            case -1:
-                goal_item = self.create_event(wayroom_name + " Finished")
-                all_garibs_item  = self.create_event(wayroom_name + " Completed")
-            case 0:
-                goal_item = self.create_event(wayroom_name + " 2 Gate")
-                all_garibs_item  = self.create_event(wayroom_name + " 1 Star")
-            case 1:
-                goal_item = self.create_event(wayroom_name + " 3 Gate")
-                all_garibs_item  = self.create_event(wayroom_name + " 2 Star")
-            case 2:
-                goal_item = self.create_event(wayroom_name + " Boss Gate")
-                all_garibs_item  = self.create_event(wayroom_name + " 3 Star")
-            case 3:
-                goal_item = self.create_event(wayroom_name + " Ball")
-                all_garibs_item  = self.create_event(wayroom_name + " Boss Star")
-            case 4:
-                goal_item = self.create_event(wayroom_name + " Bonus Complete")
-                all_garibs_item  = self.create_event(wayroom_name + " Bonus Star")
+        #Open Levels Bosslock
+        if self.options.open_world_bosslock and entry_index >= 0 and entry_index <= 2:
+            render_num : str = str(entry_index + 1)
+            goal_item = self.create_event(wayroom_name + " Key " + render_num)
+            all_garibs_item  = self.create_event(wayroom_name + " " + render_num + " Star")
+        else:
+            #What fixed item is there?
+            match entry_index:
+                case -1:
+                    goal_item = self.create_event(wayroom_name + " Finished")
+                    all_garibs_item  = self.create_event(wayroom_name + " Completed")
+                case 0:
+                    goal_item = self.create_event(wayroom_name + " 2 Gate")
+                    all_garibs_item  = self.create_event(wayroom_name + " 1 Star")
+                case 1:
+                    goal_item = self.create_event(wayroom_name + " 3 Gate")
+                    all_garibs_item  = self.create_event(wayroom_name + " 2 Star")
+                case 2:
+                    goal_item = self.create_event(wayroom_name + " Boss Gate")
+                    all_garibs_item  = self.create_event(wayroom_name + " 3 Star")
+                case 3:
+                    goal_item = self.create_event(wayroom_name + " Ball")
+                    all_garibs_item  = self.create_event(wayroom_name + " Boss Star")
+                case 4:
+                    goal_item = self.create_event(wayroom_name + " Bonus Complete")
+                    all_garibs_item  = self.create_event(wayroom_name + " Bonus Star")
         
         #Tutorial, Level ! and ? Completions always have their goal event items
         if (not self.options.open_levels) or entry_index >= 3 or entry_index == -1:
@@ -1458,6 +1473,13 @@ class GloverWorld(World):
             open_gate_spot : Location = Location(player, wayroom_name + " " + self.level_prefixes[entry_index + 1] + " Access", None, hub_region)
             hub_region.locations.append(open_gate_spot)
             open_gate_spot.place_locked_item(goal_item)
+
+        #Open Level Bosslock keeps free Gate Event Items, it's just the goals are now boss keys
+        if self.options.open_world_bosslock and entry_index > 0 and entry_index < 3:
+            render_num : str = str(entry_index + 1)
+            open_gate_item : Item = self.create_event(wayroom_name + " " + render_num + " Gate")
+            open_gate_spot : Location = Location(player, wayroom_name + " " + render_num + " Access", None, hub_region)
+            open_gate_spot.place_locked_item(open_gate_item)
 
         garibs_location : Location
         #Levels with garibs

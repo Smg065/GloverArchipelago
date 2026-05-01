@@ -683,6 +683,7 @@ def get_slot_payload(ctx: GloverContext):
             "slot_portalsanity": ctx.slot_data["portalsanity"],
             "slot_open_worlds": ctx.slot_data["open_worlds"],
             "slot_open_levels": ctx.slot_data["open_levels"],
+            "slot_open_world_bosslock": ctx.slot_data["open_world_bosslock"],
             #"slot_garib_sorting": ctx.slot_data["garib_sorting"],
             "slot_mad_garibs" : ctx.slot_data["mad_garibs"],
             "slot_random_garib_sounds" : ctx.slot_data["random_garib_sounds"],

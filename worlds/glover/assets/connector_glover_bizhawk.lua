@@ -474,7 +474,7 @@ local ROM_ITEM_TABLE = {
     "AP_SPACE_DOOR4_OPEN",
     "AP_SPACE_DOOR5_OPEN",
 	"AP_DEBUG",
-	"AP_OPEN_WORLDS_X_BOSSES"
+	"AP_OPEN_WORLDS_X_BOSSES",
     "AP_MAX_ITEM",
 };
 
@@ -12601,6 +12601,10 @@ function goal_check()
 	return check
 end
 
+function set_open_world_bosslock()
+	GVR:setItem(ITEM_TABLE["AP_OPEN_WORLDS_X_BOSSES"], 1)
+end
+
 function cheat_chicken_check()
     local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
 	return mainmemory.readbyte(hackPointerIndex + GVR.chicken_collected)
@@ -13744,6 +13748,10 @@ function process_slot(block)
     if block['slot_traplink'] ~= nil and block['slot_traplink'] ~= ""
 	then
 		LINKS_TABLE['TRAP']['ENABLED'] =block['slot_traplink']
+	end
+	if block['slot_open_world_bosslock'] ~= nil and block['slot_open_world_bosslock'] ~= 0
+	then
+		set_open_world_bosslock()
 	end
 	
 	if block['slot_garib_logic'] ~= nil

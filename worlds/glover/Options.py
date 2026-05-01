@@ -149,6 +149,12 @@ class OpenLevels(Toggle):
     visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
     display_name = "Open Levels"
 
+class OpenLevelsBosslock(Toggle):
+    """Opens doors 1, 2 and 3 in each world and only lets you access the boss when all 3 have been completed.
+    Incompatable with Open Levels and Portalsanity."""
+    visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
+    display_name = "Open Level Bosslock"
+
 class Portalsanity(Toggle):
     """Goals and All Garibs in Level are checks. Portals and garib completion marks are items. Default off.
     """
@@ -567,6 +573,7 @@ class GloverOptions(DeathLinkMixin, PerGameCommonOptions):
     entrance_overrides : EntranceOverrides
     open_worlds : OpenWorlds
     open_levels : OpenLevels
+    open_world_bosslock : OpenLevelsBosslock
     portalsanity : Portalsanity
     spawning_checkpoint_randomizer : SpawningCheckpointRandomizer
     checkpoint_overrides : CheckpointOverrides

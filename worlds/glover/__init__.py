@@ -463,6 +463,10 @@ class GloverWorld(World):
         garib_override_positions = list(self.options.garib_order_overrides.values())
         entrance_override_doors = list(self.options.entrance_overrides.values())
         
+        #Open Level Bosslock incompatabilities
+        if self.options.open_world_bosslock and (self.options.open_levels or self.options.portalsanity):
+            raise OptionError("Open Level Bosslock is incompatable with Open Levels and Portalsanity!")
+
         #No duplicate override choices for Garib Order or World Order
         if len(garib_override_positions) != len(set(garib_override_positions)):
             raise OptionError("Two garib overrides choose the same position! Make sure all values are unique.")
@@ -1493,6 +1497,7 @@ class GloverWorld(World):
             "portalsanity",
             "open_worlds",
             "open_levels",
+            "open_world_bosslock",
             "spawning_checkpoint_randomizer",
             "bonus_levels",
             "randomize_jump",
@@ -1613,6 +1618,7 @@ class GloverWorld(World):
         self.options.portalsanity.value = slot_data["portalsanity"]
         self.options.open_worlds.value = slot_data["open_worlds"]
         self.options.open_levels.value = slot_data["open_levels"]
+        self.options.open_world_bosslock.value = slot_data["open_world_bosslock"]
         if "spawning_checkpoint_randomizer" in slot_data:
             self.options.spawning_checkpoint_randomizer.value = slot_data["spawning_checkpoint_randomizer"]
         else:

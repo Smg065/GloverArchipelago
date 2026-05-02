@@ -116,6 +116,7 @@ class GloverWeb(WebWorld):
             Options.EntranceOverrides,
             Options.OpenWorlds,
             Options.OpenLevels,
+            Options.OpenLevelsBosslock,
             Options.Portalsanity
         ]),
         OptionGroup("Checkpoints", [
@@ -1203,7 +1204,8 @@ class GloverWorld(World):
                 wayroom_name + " Key 2",
                 wayroom_name + " Key 3"]
                 boss_unlock_location : Location = Location(self.player, wayroom_name + " Boss Unlock", None, hubroom)
-                self.set_rule(boss_unlock_location, lambda state, wayroom_keys = required_keys: state.has_all(wayroom_keys, self.player))
+                hubroom.locations.append(boss_unlock_location)
+                set_rule(boss_unlock_location, lambda state, wayroom_keys = required_keys: state.has_all(wayroom_keys, self.player))
                 boss_unlock_location.place_locked_item(self.create_event(wayroom_name + " Boss Gate"))
 
             #Getting all garibs from non-boss levels opens the last gate
@@ -1475,10 +1477,12 @@ class GloverWorld(World):
             open_gate_spot.place_locked_item(goal_item)
 
         #Open Level Bosslock keeps free Gate Event Items, it's just the goals are now boss keys
-        if self.options.open_world_bosslock and entry_index > 0 and entry_index < 3:
+        if self.options.open_world_bosslock and (entry_index == 1 or entry_index == 2):
+            hub_region : Region = self.multiworld.get_region(wayroom_name, self.player)
             render_num : str = str(entry_index + 1)
             open_gate_item : Item = self.create_event(wayroom_name + " " + render_num + " Gate")
             open_gate_spot : Location = Location(player, wayroom_name + " " + render_num + " Access", None, hub_region)
+            hub_region.locations.append(open_gate_spot)
             open_gate_spot.place_locked_item(open_gate_item)
 
         garibs_location : Location

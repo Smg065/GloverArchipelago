@@ -41,14 +41,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -77,14 +77,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -113,7 +113,7 @@
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -142,14 +142,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [
@@ -4121,14 +4121,14 @@
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -4157,14 +4157,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -4186,14 +4186,14 @@
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -4222,14 +4222,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [
@@ -9641,14 +9641,14 @@
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -9677,14 +9677,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -9713,7 +9713,7 @@
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -9742,14 +9742,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [
@@ -15724,14 +15724,14 @@
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -15760,14 +15760,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -15796,7 +15796,7 @@
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -15825,14 +15825,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [
@@ -16347,8 +16347,8 @@
 					{
 						"ballRequirement": true,
 						"mv0": 8,
-						"mv1": 11,
-						"mv2": 32,
+						"mv1": 32,
+						"mv2": 11,
 						"regionIndex": 7,
 						"trickDifficulty": 0
 					},
@@ -16362,7 +16362,8 @@
 					},
 					{
 						"ballRequirement": true,
-						"mv0": 27,
+						"mv0": 8,
+						"mv1": 13,
 						"regionIndex": 9,
 						"trickDifficulty": 0
 					},
@@ -16374,6 +16375,32 @@
 					{
 						"ballRequirement": true,
 						"regionIndex": 11,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 32,
+						"regionIndex": 9,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 15,
+						"regionIndex": 9,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 16,
+						"regionIndex": 9,
+						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": true,
+						"mv0": 14,
+						"mv1": 10,
+						"mv2": 25,
+						"regionIndex": 9,
 						"trickDifficulty": 0
 					}
 				],
@@ -16393,6 +16420,7 @@
 					},
 					{
 						"ballRequirement": false,
+						"mv0": 25,
 						"regionIndex": 9,
 						"trickDifficulty": 0
 					},
@@ -22381,14 +22409,14 @@
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -22417,14 +22445,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -22453,7 +22481,7 @@
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -22482,14 +22510,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [
@@ -27923,14 +27951,14 @@
 					"ck0": "1 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry 3": [
@@ -27959,14 +27987,14 @@
 					"ck0": "2 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Bonus": [
@@ -27995,7 +28023,7 @@
 					"ck0": "Boss Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Entry Boss": [
@@ -28024,14 +28052,14 @@
 					"ck0": "3 Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				},
 				{
 					"ballRequirement": false,
 					"ck0": "Bonus Star",
 					"mv0": 25,
 					"regionIndex": 0,
-					"trickDifficulty": 1
+					"trickDifficulty": 2
 				}
 			],
 			"Exit": [

@@ -13281,7 +13281,7 @@ function setTipText(tip_address, input_text, is_wayroom)
 	local text_end = text_address + GLOVERHACK.last_line
 	if furthest_line == 1
 	then
-		print("Attempting to set tip to a single line at "..tostring(text_end)..", bumping up 1 value.")
+		--print("Attempting to set tip to a single line at "..tostring(text_end)..", bumping up 1 value.")
 		furthest_line = furthest_line + 1
 	end
 	mainmemory.writebyte(text_end, furthest_line)

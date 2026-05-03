@@ -11960,11 +11960,11 @@ GLOVERHACK = {
       trap_timer = 0xA,
     hub_map = 0x8,
     world_map = 0x9,
-    n64_deathlink = 0xDC8,
-    n64_taglink = 0xDC9,
-    ROM_MAJOR_VERSION = 0xECF,
-    ROM_MINOR_VERSION = 0xED0,
-    ROM_PATCH_VERSION = 0xED1
+    n64_deathlink = 0xDC9,
+    n64_taglink = 0xDCA,
+    ROM_MAJOR_VERSION = 0xED1,
+    ROM_MINOR_VERSION = 0xED2,
+    ROM_PATCH_VERSION = 0xED3,
 }
 
 function GLOVERHACK:new(t)

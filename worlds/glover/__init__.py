@@ -213,13 +213,51 @@ class GloverWorld(World):
     #Check/Item Prefixes
     world_prefixes = ["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"]
     level_prefixes = ["H", "1", "2", "3", "!", "?"]
-    existing_levels = ["Atl1", "Atl2", "Atl3", "Atl!", "Atl?", 
-                       "Crn1", "Crn2", "Crn3", "Crn!", "Crn?", 
-                       "Prt1", "Prt2", "Prt3", "Prt!", "Prt?", 
-                       "Pht1", "Pht2", "Pht3", "Pht!", "Pht?", 
-                       "FoF1", "FoF2", "FoF3", "FoF!", "FoF?", 
-                       "Otw1", "Otw2", "Otw3", "Otw!", "Otw?", 
-                       "Training"]
+    #Set prefixes
+    ATLANTIS_HUB        = world_prefixes[0] + level_prefixes[0]
+    ATLANTIS_1          = world_prefixes[0] + level_prefixes[1]
+    ATLANTIS_2          = world_prefixes[0] + level_prefixes[2]
+    ATLANTIS_3          = world_prefixes[0] + level_prefixes[3]
+    ATLANTIS_BOSS       = world_prefixes[0] + level_prefixes[4]
+    ATLANTIS_BONUS      = world_prefixes[0] + level_prefixes[5]
+    CARNIVAL_HUB        = world_prefixes[1] + level_prefixes[0]
+    CARNIVAL_1          = world_prefixes[1] + level_prefixes[1]
+    CARNIVAL_2          = world_prefixes[1] + level_prefixes[2]
+    CARNIVAL_3          = world_prefixes[1] + level_prefixes[3]
+    CARNIVAL_BOSS       = world_prefixes[1] + level_prefixes[4]
+    CARNIVAL_BONUS      = world_prefixes[1] + level_prefixes[5]
+    PIRATES_HUB         = world_prefixes[2] + level_prefixes[0]
+    PIRATES_1           = world_prefixes[2] + level_prefixes[1]
+    PIRATES_2           = world_prefixes[2] + level_prefixes[2]
+    PIRATES_3           = world_prefixes[2] + level_prefixes[3]
+    PIRATES_BOSS        = world_prefixes[2] + level_prefixes[4]
+    PIRATES_BONUS       = world_prefixes[2] + level_prefixes[5]
+    PREHISTORIC_HUB     = world_prefixes[3] + level_prefixes[0]
+    PREHISTORIC_1       = world_prefixes[3] + level_prefixes[1]
+    PREHISTORIC_2       = world_prefixes[3] + level_prefixes[2]
+    PREHISTORIC_3       = world_prefixes[3] + level_prefixes[3]
+    PREHISTORIC_BOSS    = world_prefixes[3] + level_prefixes[4]
+    PREHISTORIC_BONUS   = world_prefixes[3] + level_prefixes[5]
+    FEAR_HUB            = world_prefixes[4] + level_prefixes[0]
+    FEAR_1              = world_prefixes[4] + level_prefixes[1]
+    FEAR_2              = world_prefixes[4] + level_prefixes[2]
+    FEAR_3              = world_prefixes[4] + level_prefixes[3]
+    FEAR_BOSS           = world_prefixes[4] + level_prefixes[4]
+    FEAR_BONUS          = world_prefixes[4] + level_prefixes[5]
+    SPACE_HUB           = world_prefixes[5] + level_prefixes[0]
+    SPACE_1             = world_prefixes[5] + level_prefixes[1]
+    SPACE_2             = world_prefixes[5] + level_prefixes[2]
+    SPACE_3             = world_prefixes[5] + level_prefixes[3]
+    SPACE_BOSS          = world_prefixes[5] + level_prefixes[4]
+    SPACE_BONUS         = world_prefixes[5] + level_prefixes[5]
+    #All levels
+    existing_levels = [ATLANTIS_1, ATLANTIS_2, ATLANTIS_3, ATLANTIS_BOSS, ATLANTIS_BONUS,
+        CARNIVAL_1, CARNIVAL_2, CARNIVAL_3, CARNIVAL_BOSS, CARNIVAL_BONUS,
+        PIRATES_1, PIRATES_2, PIRATES_3, PIRATES_BOSS, PIRATES_BONUS,
+        PREHISTORIC_1, PREHISTORIC_2, PREHISTORIC_3, PREHISTORIC_BOSS, PREHISTORIC_BONUS,
+        FEAR_1, FEAR_2, FEAR_3, FEAR_BOSS, FEAR_BONUS,
+        SPACE_1, SPACE_2, SPACE_3, SPACE_BOSS, SPACE_BONUS,
+        "Training"]
     group_lists : list[str] = ["Not Crystal",
 	"Not Bowling",
 	"Not Bowling or Crystal",
@@ -308,57 +346,57 @@ class GloverWorld(World):
         self.overworld_entrances.append("Well")
         #Garib level order table
         self.garib_level_order = [
-            ["Atl1", 50],
-            ["Atl2", 60],
-            ["Atl3", 80],
-            ["Atl?", 25],
-            ["Crn1", 65],
-            ["Crn2", 80],
-            ["Crn3", 80],
-            ["Crn?", 20],
-            ["Prt1", 70],
-            ["Prt2", 60],
-            ["Prt3", 80],
-            ["Prt?", 50],
-            ["Pht1", 80],
-            ["Pht2", 80],
-            ["Pht3", 80],
-            ["Pht?", 60],
-            ["FoF1", 60],
-            ["FoF2", 60],
-            ["FoF3", 70],
-            ["FoF?", 56],
-            ["Otw1", 50],
-            ["Otw2", 50],
-            ["Otw3", 80],
-            ["Otw?", 50]
+            [self.ATLANTIS_1, 50],
+            [self.ATLANTIS_2, 60],
+            [self.ATLANTIS_3, 80],
+            [self.ATLANTIS_BONUS, 25],
+            [self.CARNIVAL_1, 65],
+            [self.CARNIVAL_2, 80],
+            [self.CARNIVAL_3, 80],
+            [self.CARNIVAL_BONUS, 20],
+            [self.PIRATES_1, 70],
+            [self.PIRATES_2, 60],
+            [self.PIRATES_3, 80],
+            [self.PIRATES_BONUS, 50],
+            [self.PREHISTORIC_1, 80],
+            [self.PREHISTORIC_2, 80],
+            [self.PREHISTORIC_3, 80],
+            [self.PREHISTORIC_BONUS, 60],
+            [self.FEAR_1, 60],
+            [self.FEAR_2, 60],
+            [self.FEAR_3, 70],
+            [self.FEAR_BONUS, 56],
+            [self.SPACE_1, 50],
+            [self.SPACE_2, 50],
+            [self.SPACE_3, 80],
+            [self.SPACE_BONUS, 50]
         ]
         #Extra garib placements
         self.extra_garib_levels = [
-            ["Atl1", 0],
-            ["Atl2", 0],
-            ["Atl3", 0],
-            ["Atl?", 0],
-            ["Crn1", 0],
-            ["Crn2", 0],
-            ["Crn3", 0],
-            ["Crn?", 0],
-            ["Prt1", 0],
-            ["Prt2", 0],
-            ["Prt3", 0],
-            ["Prt?", 0],
-            ["Pht1", 0],
-            ["Pht2", 0],
-            ["Pht3", 0],
-            ["Pht?", 0],
-            ["FoF1", 0],
-            ["FoF2", 0],
-            ["FoF3", 0],
-            ["FoF?", 0],
-            ["Otw1", 0],
-            ["Otw2", 0],
-            ["Otw3", 0],
-            ["Otw?", 0]
+            [self.ATLANTIS_1, 0],
+            [self.ATLANTIS_2, 0],
+            [self.ATLANTIS_3, 0],
+            [self.ATLANTIS_BONUS, 0],
+            [self.CARNIVAL_1, 0],
+            [self.CARNIVAL_2, 0],
+            [self.CARNIVAL_3, 0],
+            [self.CARNIVAL_BONUS, 0],
+            [self.PIRATES_1, 0],
+            [self.PIRATES_2, 0],
+            [self.PIRATES_3, 0],
+            [self.PIRATES_BONUS, 0],
+            [self.PREHISTORIC_1, 0],
+            [self.PREHISTORIC_2, 0],
+            [self.PREHISTORIC_3, 0],
+            [self.PREHISTORIC_BONUS, 0],
+            [self.FEAR_1, 0],
+            [self.FEAR_2, 0],
+            [self.FEAR_3, 0],
+            [self.FEAR_BONUS, 0],
+            [self.SPACE_1, 0],
+            [self.SPACE_2, 0],
+            [self.SPACE_3, 0],
+            [self.SPACE_BONUS, 0]
         ]
         self.starting_ball : str = "Rubber Ball"
         #Grab Mr. Tips for hints
@@ -581,7 +619,7 @@ class GloverWorld(World):
             end_options.append("?")
         if allow_bosses:
             end_options.append("!")
-        return in_level.endswith(tuple(end_options)) and in_level.startswith(tuple(["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"])) and len(in_level) == 4
+        return in_level.endswith(tuple(end_options)) and in_level.startswith(tuple(self.world_prefixes)) and len(in_level) == 4
    
     def percents_sum_100(self, percents_dict : dict) -> dict:
         sum : float = 0
@@ -608,18 +646,18 @@ class GloverWorld(World):
         
         #Remove bonus levels by placing them in vanilla spots
         if not self.options.bonus_levels:
-            self.wayroom_entrances.remove("Atl?")
-            self.wayroom_entrances.remove("Crn?")
-            self.wayroom_entrances.remove("Prt?")
-            self.wayroom_entrances.remove("Pht?")
-            self.wayroom_entrances.remove("FoF?")
-            self.wayroom_entrances.remove("Otw?")
-            self.wayroom_entrances.insert(4, "Atl?")
-            self.wayroom_entrances.insert(9, "Crn?")
-            self.wayroom_entrances.insert(14, "Prt?")
-            self.wayroom_entrances.insert(19, "Pht?")
-            self.wayroom_entrances.insert(24, "FoF?")
-            self.wayroom_entrances.insert(29, "Otw?")
+            self.wayroom_entrances.remove(self.ATLANTIS_BONUS)
+            self.wayroom_entrances.remove(self.CARNIVAL_BONUS)
+            self.wayroom_entrances.remove(self.PIRATES_BONUS)
+            self.wayroom_entrances.remove(self.PREHISTORIC_BONUS)
+            self.wayroom_entrances.remove(self.FEAR_BONUS)
+            self.wayroom_entrances.remove(self.SPACE_BONUS)
+            self.wayroom_entrances.insert(4,  self.ATLANTIS_BONUS)
+            self.wayroom_entrances.insert(9,  self.CARNIVAL_BONUS)
+            self.wayroom_entrances.insert(14, self.PIRATES_BONUS)
+            self.wayroom_entrances.insert(19, self.PREHISTORIC_BONUS)
+            self.wayroom_entrances.insert(24, self.FEAR_BONUS)
+            self.wayroom_entrances.insert(29, self.SPACE_BONUS)
 
         #Override randomized entrances here
         for each_entry, each_door in self.options.entrance_overrides.value.items():
@@ -634,7 +672,7 @@ class GloverWorld(World):
         for each_level in self.existing_levels:
             is_restrictive : bool = False
             match each_level:
-                case "Atl2":
+                case self.ATLANTIS_2:
                     match self.spawn_checkpoint[1]:
                         case 0:
                             is_restrictive = self.options.difficulty_logic.value == 0 and self.ra
@@ -646,7 +684,7 @@ class GloverWorld(World):
         #If you can't possibly spawn here
         if not self.wayroom_entrances[0] in possible_starts:
             #No forcing restrictive starts
-            if "Atl1" in self.options.entrance_overrides.value.values() or len(self.options.entrance_overrides.value.values()) > 28:
+            if self.ATLANTIS_1 in self.options.entrance_overrides.value.values() or len(self.options.entrance_overrides.value.values()) > 28:
                 raise OptionError("Cannot force first level, restrictive start!")
             #Pick a non-forced possible spot
             possible_swaps : list[str] = []
@@ -687,18 +725,18 @@ class GloverWorld(World):
 
         #Bonus level garibs all go at the end if they're disabled
         if not self.options.bonus_levels:
-            self.garib_level_order.remove(["Atl?", 25])
-            self.garib_level_order.remove(["Crn?", 20])
-            self.garib_level_order.remove(["Prt?", 50])
-            self.garib_level_order.remove(["Pht?", 60])
-            self.garib_level_order.remove(["FoF?", 56])
-            self.garib_level_order.remove(["Otw?", 50])
-            self.garib_level_order.append(["Atl?", 25])
-            self.garib_level_order.append(["Crn?", 20])
-            self.garib_level_order.append(["Prt?", 50])
-            self.garib_level_order.append(["Pht?", 60])
-            self.garib_level_order.append(["FoF?", 56])
-            self.garib_level_order.append(["Otw?", 50])
+            self.garib_level_order.remove([self.ATLANTIS_BONUS, 25])
+            self.garib_level_order.remove([self.CARNIVAL_BONUS, 20])
+            self.garib_level_order.remove([self.PIRATES_BONUS, 50])
+            self.garib_level_order.remove([self.PREHISTORIC_BONUS, 60])
+            self.garib_level_order.remove([self.FEAR_BONUS, 56])
+            self.garib_level_order.remove([self.SPACE_BONUS, 50])
+            self.garib_level_order.append([self.ATLANTIS_BONUS, 25])
+            self.garib_level_order.append([self.CARNIVAL_BONUS, 20])
+            self.garib_level_order.append([self.PIRATES_BONUS, 50])
+            self.garib_level_order.append([self.PREHISTORIC_BONUS, 60])
+            self.garib_level_order.append([self.FEAR_BONUS, 56])
+            self.garib_level_order.append([self.SPACE_BONUS, 50])
         elif self.options.accessibility == Accessibility.option_full and not (self.options.portalsanity or self.options.open_levels):
             #Bonus levels unlock stuff, ergo sorting order is important to stop lockouts.
             #Open levels and portalsanity already stop star mark lockouts

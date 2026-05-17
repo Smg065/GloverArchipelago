@@ -1,5 +1,5 @@
 #Check/Item Prefixes
-WORLD_PREFIXES = ["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"]
+WORLD_PREFIXES = ["Atl", "Car", "Pir", "Pre", "FoF", "Otw"]
 LEVEL_PREFIXES = ["H", "1", "2", "3", "!", "?"]
 
 #Set prefixes

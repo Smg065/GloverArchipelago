@@ -89,7 +89,7 @@ def find_item_data(self, name : str) -> ItemData:
 BASE_ID = 6500000
 
 misc_table = {
-	"Golden Garib" :							ItemData(BASE_ID + 99999, -1, "Proguseful", None)
+	"Golden Garib" : ItemData(BASE_ID + 99999, -1, "Proguseful", None)
 	}
 
 portalsanity_table = {
@@ -213,9 +213,9 @@ level_event_table = {
 	SPACE_3 + " Fan" : 						ItemData(BASE_ID + 118, 1, "Progression", SPACE_3 + ": Above Fan Red Switch"),
 	SPACE_3 + " Bridge" : 					ItemData(BASE_ID + 119, 1, "Progression", SPACE_3 + ": Magnet Ball Switch"),
 	SPACE_3 + " Glass Gate" : 				ItemData(BASE_ID + 120, 1, "Progression", SPACE_3 + ": Ball Switch"),
-	"Training Sandpit" : 								ItemData(BASE_ID + 127, 1, "Progression", "Training: Ball Switch"),
-	"Training Lower Target" : 							ItemData(BASE_ID + 128, 1, "Progression", "Training: Glover Switch"),
-	"Training Stairs" : 								ItemData(BASE_ID + 129, 1, "Progression", "Training: Target")
+	"Training Sandpit" : 					ItemData(BASE_ID + 127, 1, "Progression", "Training: Ball Switch"),
+	"Training Lower Target" : 				ItemData(BASE_ID + 128, 1, "Progression", "Training: Glover Switch"),
+	"Training Stairs" : 					ItemData(BASE_ID + 129, 1, "Progression", "Training: Target")
 	}
 
 checkpoint_table = {

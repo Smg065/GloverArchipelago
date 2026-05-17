@@ -190,6 +190,9 @@ world_tables = {
         "Even if you could, I would not dribble the Arcane Egg.",
         "Get The Knight's nails far away from the rubber ball."
     ],
+    "holo8" : [
+        "There's a girl named Suisei near the blue elevator who really likes gloves. Stay alert, Glover."
+    ],
     "Hylics 2" : [
         "Glover must have a lot of will to spam gestures like that."
     ],

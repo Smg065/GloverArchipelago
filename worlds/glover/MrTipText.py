@@ -1,4 +1,9 @@
-#from worlds.glover import GloverWorld
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from . import GloverWorld
+else:
+    GloverWorld = object
 
 #Advice that you can actually use in the Glover Archipelago.
 actual_advice = [
@@ -25,7 +30,7 @@ actual_advice = [
     "Only the ball bearing and bowling ball can sink.",
     "You can damage the whale using the crystal.",
     "The well contains many hints. Use them to plan ahead.",
-    "Atl?, Crn?, Pht?, FoF? and Otw! can all be beaten without items.",
+    "Atl?, Car?, Pre?, FoF? and Otw! can all be beaten without items.",
     "Avoid hitting the wizard cutouts in Carnival Bonus. They spawn targets.",
     "You don't need the speed potion if you have the right items.",
     "Traps that change your ball may act as a boon in the right context.",

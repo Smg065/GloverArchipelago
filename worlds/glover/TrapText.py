@@ -1,5 +1,12 @@
 from .ItemPool import garibsanity_world_table, checkpoint_table, world_garib_table, level_event_table, decoupled_garib_table
 from .Options import GaribSorting, GaribLogic
+from typing import TYPE_CHECKING
+from .LevelPrefixes import *
+
+if TYPE_CHECKING:
+    from . import GloverWorld
+else:
+    GloverWorld = object
 
 world_tables = {
     "Super Mario 64" : [
@@ -42,7 +49,7 @@ def select_trap_item_name(self, original_name : str) -> str:
                 fake_name.replace("Garib", "Garlb")
     
     #Level prefix corruption
-    if fake_name.startswith(tuple(self.world_prefixes)):
+    if fake_name.startswith(tuple(WORLD_PREFIXES)):
         #1 in every 20 of these has funny prefixes
         if self.random.randint(1, 20) == 20:
             level_swaps = [
@@ -60,9 +67,9 @@ def select_trap_item_name(self, original_name : str) -> str:
                 "BKd",
             #Wrong prefix
                 "Alt",
-                "Crm",
-                "Prc",
-                "Phc",
+                "Cor",
+                "Pri",
+                "Per",
                 "F0F",
                 "Otm",
                 ]
@@ -92,30 +99,30 @@ def dynamic_trap_name_table(self) -> list[str]:
         trap_name_table.extend([
             "Hubworld Tree Gate",
             "Hubworld Castle Cave Gate",
-            "OtwH Final Boss Gate"
+            SPACE_HUB + " Final Boss Gate"
         ])
     
     #Fake level events
     if self.options.switches_checks:
         trap_name_table.extend([
-            "Atl1 Raise Water",
-            "Atl2 Free Mermaid",
-            "Atl3 Yellow Submarine",
-            "Crn1 Fireworks",
-            "Crn2 Baseball Minigame",
-            "Crn3 Ferris Wheel",
-            "Prt1 Dirt Jar",
-            "Prt2 Sink Ship",
-            "Prt3 Release Kraken",
-            "Pht1 Melt Ice",
-            "Pht2 Erupt Volcano",
-            "Pht3 Dino Wedding",
-            "FoF1 Mr Bones",
-            "FoF2 Green Castle",
-            "FoF3 Drawbridge",
-            "Otw1 Ancienter Aliens",
-            "Otw2 Bomb",
-            "Otw3 Second Magnet",
+            ATLANTIS_1 + " Raise Water",
+            ATLANTIS_2 + " Free Mermaid",
+            ATLANTIS_3 + " Yellow Submarine",
+            CARNIVAL_1 + " Fireworks",
+            CARNIVAL_2 + " Baseball Minigame",
+            CARNIVAL_3 + " Ferris Wheel",
+            PIRATES_1 + " Dirt Jar",
+            PIRATES_2 + " Sink Ship",
+            PIRATES_3 + " Release Kraken",
+            PREHISTORIC_1 + " Melt Ice",
+            PREHISTORIC_2 + " Erupt Volcano",
+            PREHISTORIC_3 + " Dino Wedding",
+            FEAR_1 + " Mr Bones",
+            FEAR_2 + " Green Castle",
+            FEAR_3 + " Drawbridge",
+            SPACE_1 + " Ancienter Aliens",
+            SPACE_2 + " Bomb",
+            SPACE_3 + " Second Magnet",
             "Training Wheel"
         ])
     else:

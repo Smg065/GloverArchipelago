@@ -7,6 +7,7 @@ from operator import attrgetter
 from .Options import GaribLogic, DifficultyLogic
 from .Rules import move_lookup, switches_to_event_items, access_methods_to_rules
 from worlds.generic.Rules import add_rule, set_rule
+from .LevelPrefixes import *
 
 if TYPE_CHECKING:
     from . import GloverWorld
@@ -15,45 +16,45 @@ else:
 
 #Level name, followed by the region indexes of each checkpoint
 levels_in_order = [
-    [GloverWorld.ATLANTIS_HUB       , 0],
-    [GloverWorld.ATLANTIS_1         , 0, 0],
-    [GloverWorld.ATLANTIS_2         , 0, 4, 8],
-    [GloverWorld.ATLANTIS_3         , 0, 3, 10],
-    [GloverWorld.ATLANTIS_BOSS      , 0],
-    [GloverWorld.ATLANTIS_BONUS     , 0],
-    [GloverWorld.CARNIVAL_HUB       , 0],
-    [GloverWorld.CARNIVAL_1         , 0, 2, 5, 9],
-    [GloverWorld.CARNIVAL_2         , 0, 3, 6, 13, 15],
-    [GloverWorld.CARNIVAL_3         , 0, 5, 9, 13],
-    [GloverWorld.CARNIVAL_BOSS      , 0],
-    [GloverWorld.CARNIVAL_BONUS     , 0],
-    [GloverWorld.PIRATES_HUB        , 0],
-    [GloverWorld.PIRATES_1          , 0, 11, 15],
-    [GloverWorld.PIRATES_2          , 0, 3, 5],
-    [GloverWorld.PIRATES_3          , 0, 5, 15, 19],
-    [GloverWorld.PIRATES_BOSS       , 0],
-    [GloverWorld.PIRATES_BONUS      , 0],
-    [GloverWorld.PREHISTORIC_HUB    , 0],
-    [GloverWorld.PREHISTORIC_1      , 0, 9, 12],
-    [GloverWorld.PREHISTORIC_2      , 0, 13, 18, 19],
-    [GloverWorld.PREHISTORIC_3      , 0, 5, 8, 11],
-    [GloverWorld.PREHISTORIC_BOSS   , 0],
-    [GloverWorld.PREHISTORIC_BONUS  , 0],
-    [GloverWorld.FEAR_HUB           , 0],
-    [GloverWorld.FEAR_1             , 0, 6, 13],
-    [GloverWorld.FEAR_2             , 0, 2, 7],
-    [GloverWorld.FEAR_3             , 0, 3, 4, 11, 17],
-    [GloverWorld.FEAR_BOSS          , 0],
-    [GloverWorld.FEAR_BONUS         , 0],
-    [GloverWorld.SPACE_HUB          , 0],
-    [GloverWorld.SPACE_1            , 0, 9],
-    [GloverWorld.SPACE_2            , 0],
-    [GloverWorld.SPACE_3            , 0, 2, 12, 17],
-    [GloverWorld.SPACE_BOSS         , 0],
-    [GloverWorld.SPACE_BONUS        , 0],
-    ["Hubworld"                     , 0],
-    ["Castle Cave"                  , 0],
-    ["Training"                     , 0]
+    [ATLANTIS_HUB       , 0],
+    [ATLANTIS_1         , 0, 0],
+    [ATLANTIS_2         , 0, 4, 8],
+    [ATLANTIS_3         , 0, 3, 10],
+    [ATLANTIS_BOSS      , 0],
+    [ATLANTIS_BONUS     , 0],
+    [CARNIVAL_HUB       , 0],
+    [CARNIVAL_1         , 0, 2, 5, 9],
+    [CARNIVAL_2         , 0, 3, 6, 13, 15],
+    [CARNIVAL_3         , 0, 5, 9, 13],
+    [CARNIVAL_BOSS      , 0],
+    [CARNIVAL_BONUS     , 0],
+    [PIRATES_HUB        , 0],
+    [PIRATES_1          , 0, 11, 15],
+    [PIRATES_2          , 0, 3, 5],
+    [PIRATES_3          , 0, 5, 15, 19],
+    [PIRATES_BOSS       , 0],
+    [PIRATES_BONUS      , 0],
+    [PREHISTORIC_HUB    , 0],
+    [PREHISTORIC_1      , 0, 9, 12],
+    [PREHISTORIC_2      , 0, 13, 18, 19],
+    [PREHISTORIC_3      , 0, 5, 8, 11],
+    [PREHISTORIC_BOSS   , 0],
+    [PREHISTORIC_BONUS  , 0],
+    [FEAR_HUB           , 0],
+    [FEAR_1             , 0, 6, 13],
+    [FEAR_2             , 0, 2, 7],
+    [FEAR_3             , 0, 3, 4, 11, 17],
+    [FEAR_BOSS          , 0],
+    [FEAR_BONUS         , 0],
+    [SPACE_HUB          , 0],
+    [SPACE_1            , 0, 9],
+    [SPACE_2            , 0],
+    [SPACE_3            , 0, 2, 12, 17],
+    [SPACE_BOSS         , 0],
+    [SPACE_BONUS        , 0],
+    ["Hubworld"         , 0],
+    ["Castle Cave"      , 0],
+    ["Training"         , 0]
 ]
 
 file = pkgutil.get_data(__name__, "Logic.json").decode("utf-8")
@@ -563,7 +564,7 @@ def build_data(self : GloverWorld) -> List[RegionLevel]:
     #Build Logic
     loc_con_index = 0
     for world_index, each_world in enumerate(logic_data):
-        world_prefix : str = create_world_prefix(self.world_prefixes, world_index)
+        world_prefix : str = create_world_prefix(world_index)
         #Go over the Glover worlds
         for level_index, level_key in enumerate(each_world):
             if level_index == 5 and not self.options.bonus_levels:
@@ -572,7 +573,7 @@ def build_data(self : GloverWorld) -> List[RegionLevel]:
             each_level = each_world[level_key]
             checkpoint_entry_pairs : list = levels_in_order[loc_con_index]
             loc_con_index += 1
-            level_prefix = create_level_prefix(self.level_prefixes, world_index, level_index)
+            level_prefix = create_level_prefix(world_index, level_index)
             level_name : str = world_prefix + level_prefix
             prefix : str = level_name + ": "
             map_regions : List[RegionPair] = []
@@ -695,13 +696,13 @@ def build_location_pairings(base_name : str, check_info : dict, ap_ids : list[st
 def non_blank_ap_ids(ap_ids : list[str]) -> list[str]:
     return list(filter(lambda a: a != "", ap_ids))
 
-def create_world_prefix(world_prefixes : list[str], index : int) -> str:
+def create_world_prefix(index : int) -> str:
     if index < 6:
-        return world_prefixes[index]
+        return WORLD_PREFIXES[index]
     else:
         return ""
 
-def create_level_prefix(level_prefixes : list[str], world_index : int, level_index : int) -> str:
+def create_level_prefix(world_index : int, level_index : int) -> str:
     if world_index == 6:
         match level_index:
             case 0:
@@ -711,9 +712,9 @@ def create_level_prefix(level_prefixes : list[str], world_index : int, level_ind
             case 2:
                 return "Training"
     else:
-        return level_prefixes[level_index]
+        return LEVEL_PREFIXES[level_index]
 
-def generate_location_information(world_prefixes : list[str], level_prefixes : list[str]) -> list:
+def generate_location_information() -> list:
     location_name_to_id : dict = {}
     #Setup the location types here
     location_name_groups : dict = {}
@@ -726,9 +727,9 @@ def generate_location_information(world_prefixes : list[str], level_prefixes : l
     location_name_groups["Crystals"] = []
     #Each World
     for each_world_index, each_world in enumerate(logic_data):
-        world_prefix : str = create_world_prefix(world_prefixes, each_world_index)
+        world_prefix : str = create_world_prefix(each_world_index)
         for level_key, level_data in each_world.items():
-            level_prefix : str = create_level_prefix(level_prefixes, each_world_index, int(level_key[-1]))
+            level_prefix : str = create_level_prefix(each_world_index, int(level_key[-1]))
             level_name = world_prefix + level_prefix
             prefix : str = level_name + ": "
             if prefix == "Castle Cave: ":
@@ -770,8 +771,8 @@ def generate_location_information(world_prefixes : list[str], level_prefixes : l
                     case "l5":
                         location_name_to_id[prefix + "All Garibs"] = 30000 + (each_world_index * 10) + 5
     #Scores
-    for world_index, world_prefix in enumerate(world_prefixes, 1):
-        for level_index, level_prefix in enumerate(level_prefixes):
+    for world_index, world_prefix in enumerate(WORLD_PREFIXES, 1):
+        for level_index, level_prefix in enumerate(LEVEL_PREFIXES):
             level_score_address = 100000 * ((world_index * 10) + level_index)
             if (level_index != 4 or world_index == 6) and level_index != 0:
                 level_name = world_prefix + level_prefix

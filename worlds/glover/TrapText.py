@@ -89,7 +89,7 @@ def dynamic_trap_name_table(self) -> list[str]:
 
     #Fake portal entries
     if self.options.portalsanity:
-        for each_prefix in self.level_prefixes:
+        for each_prefix in LEVEL_PREFIXES:
             trap_name_table.append(each_prefix + "H Exit Gate")
             trap_name_table.append(each_prefix + "H 1 Gate")
             trap_name_table.append(each_prefix + "H 4 Gate")
@@ -132,7 +132,7 @@ def dynamic_trap_name_table(self) -> list[str]:
     if not self.options.checkpoint_checks:
         trap_name_table.extend(checkpoint_table.keys())
     elif not self.options.spawning_checkpoint_randomizer:
-        for each_prefix in self.level_prefixes:
+        for each_prefix in LEVEL_PREFIXES:
             trap_name_table.extend([
                 each_prefix + "1 Checkpoint 1",
                 each_prefix + "2 Checkpoint 1",

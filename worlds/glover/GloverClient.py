@@ -324,13 +324,13 @@ class GloverContext(CommonContext):
             "DEATH" : BounceLink("DEATH", "DeathLink"),
             "TAG" : BounceLink("TAG", "TagLink"),
             "TRAP" : MultiLink("TRAP", "TrapLink", {
-                "FROG" : {"Accepts" : ["Animal Trap", "Animal Bonus Trap", "Fishing Trap", "Frog Trap", "Jump Trap", "Jumping Jacks Trap", "No Guarding", "Snake Trap", "Slow Trap", "Slowness Trap", "Tiny Trap"]},
+                "FROG" : {"Accepts" : ["Animal Trap", "Animal Bonus Trap", "Fishing Trap", "Frog Trap", "Jump Trap", "Jumping Jacks Trap", "No Guarding", "Snake Trap", "Slow Trap", "Slowness Trap", "Stinky Trap", "Tiny Trap"]},
                 "CRYSTAL" : {"Accepts" : ["Crystal Trap", "Damage Trap", "Double Damage", "Eject Ability", "Energy Drain Trap", "Gadget Shuffle Trap", "Items to Bombs", "Instant Crystal Trap", "One Hit KO", "Radiation Trap", "Swap Trap", "Whoops! Trap"]},
                 "CAMERA" : {"Accepts" : ["Camera Rotate Trap", "Confound Trap", "Confuse Trap", "Deisometric Trap", "Flip Horizontal Trap", "Flip Trap", "Flip Vertical Trap", "Gas Trap", "Inverted Mouse Trap", "Mirror Trap", "Reverse Controls Trap", "Reversal Trap", "Reverse Trap", "Screen Flip Trap", "Whirlpool Trap"]},
                 "CURSE_BALL" : {"Accepts" : ["Curse Trap", "Banana Peel Trap", "Banana Trap", "Blue Balls Curse", "Confusion Trap", "Controller Drift Trap", "Cursed Ball Trap", "Ice Floor Trap", "Ice Trap", "Monkey Mash Trap", "My Turn! Trap", "Shake Trap", "Slip Trap"]},
                 "TIP" : {"Accepts" : ["Aaa Trap", "Cutscene Trap", "Exposition Trap", "Ghost Chat", "Help Trap", "Hey! Trap", "Literature Trap", "OmoTrap", "Person Trap", "Phone Trap", "Tip Trap", "Trivia Trap", "Tutorial Trap", "Spam Trap", "Well Done Trap"]},
                 "FISH_EYE" : {"Accepts" : ["144p Trap", "Fish Eye Trap", "Fracture Trap", "Fuzzy Trap", "Pixelate Trap", "Pixellation Trap", "Spotlight Trap", "Underwater Trap", "W I D E Trap", "Zoom In Trap", "Zoom Out Trap", "Zoom Trap"]},
-                "ENEMY_BALL" : {"Accepts" : ["Army Trap", "Bee Trap", "Bunyon Trap", "Fear Trap", "Gooey Bag", "Police Trap", "Spooky Time", "Syntax Jumpscare Trap", "Tarr Trap", "Thwimp Trap"]},
+                "ENEMY_BALL" : {"Accepts" : ["Army Trap", "Bee Trap", "Bunyon Trap", "Chaos Trap", "Fear Trap", "Gooey Bag", "Police Trap", "Spooky Time", "Syntax Jumpscare Trap", "Tarr Trap", "Thwimp Trap"]},
                 "CONTROL_BALL" : {"Accepts" : ["Bald Trap", "Breakout Trap", "Bubble Trap", "Control Ball Trap", "Disable A Trap", "Disable Z Trap", "Ghost", "Pinball Trap", "PONG Challenge", "Pong Trap"]},
                 "INVISIBALL" : {"Accepts" : ["Clear Image Trap", "Depletion Trap", "Disable B Trap", "Disarm Trap", "Empty Item Box Trap", "Fishin' Boo Trap", "Get Out Trap", "Invisiball Trap", "Invisible Trap", "Invisibility Trap", "No Stocks", "No Vac Trap", "Resistance Trap", "Spike Ball Trap"]},
                 #Misc items activated by traps

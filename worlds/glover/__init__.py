@@ -51,11 +51,29 @@ class GloverSettings(settings.Group):
       Leave blank to disable.
       Set to "--lua=" to automatically use the correct path for the lua connector.
     """
+    
+  class AllowGaribsanity(settings.Bool):
+     """If Garibsanity is allowed."""
+
+  class AllowCheckpointOverrides(settings.Bool):
+     """If you're allowed to plando starting checkpoints."""
+
+  class AllowEntranceOverrides(settings.Bool):
+     """If you're allowed to plando entrance randomizer."""
+
+  class AllowGaribOrderOverrides(settings.Bool):
+     """If you're allowed to plando Garib Order."""
+
 
   rom_path: RomPath | str = ""
   patch_path: PatchPath | str = ""
   program_path: ProgramPath | str = ""
   program_args: ProgramArgs | str = "--lua="
+  
+  allow_garibsanity : AllowGaribsanity = False
+  allow_checkpoint_overrides : AllowCheckpointOverrides = False
+  allow_entrance_overrides : AllowEntranceOverrides = False
+  allow_garib_order_overrides : AllowGaribOrderOverrides = False
 
 class GloverItem(Item):
 	#Start at 650000
@@ -451,6 +469,15 @@ class GloverWorld(World):
                     self.spawn_checkpoint[13] = 2
 
     def validate_options(self):
+        #Host settings
+        if (not self.settings.allow_garibsanity) and self.options.garib_logic == GaribLogic.option_garibsanity:
+            raise OptionError("Host must enable Garibsanity for you to use this option!")
+        if (not self.settings.allow_checkpoint_overrides) and len(self.options.checkpoint_overrides.value.keys()) > 0:
+            raise OptionError("Host must enable Checkpoint Overrides for you to use this option!")
+        if (not self.settings.allow_entrance_overrides) and len(self.options.entrance_overrides.value.keys()) > 0:
+            raise OptionError("Host must enable Entrance Overrides for you to use this option!")
+        if (not self.settings.allow_garib_order_overrides) and len(self.options.garib_order_overrides.value.keys()) > 0:
+            raise OptionError("Host must enable Garib Order Overrides for you to use this option!")
         #Level Name input validation
         for each_level, each_door in self.options.entrance_overrides.items():
             if not self.valid_override_level_name(each_level):

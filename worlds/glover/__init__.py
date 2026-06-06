@@ -4,6 +4,7 @@ import math
 from typing import Any, Dict, TextIO
 
 from BaseClasses import ItemClassification, Location, MultiWorld, Tutorial, Item, Region, Entrance
+from Fill import FillError
 from Options import Accessibility, OptionError, OptionGroup
 from .MrTipText import generate_tip_table
 from .TrapText import static_trap_name_table, dynamic_trap_name_table, select_trap_item_name
@@ -70,7 +71,7 @@ class GloverSettings(settings.Group):
   program_path: ProgramPath | str = ""
   program_args: ProgramArgs | str = "--lua="
   
-  allow_garibsanity : AllowGaribsanity = False
+  allow_garibsanity : AllowGaribsanity = True
   allow_checkpoint_overrides : AllowCheckpointOverrides = False
   allow_entrance_overrides : AllowEntranceOverrides = False
   allow_garib_order_overrides : AllowGaribOrderOverrides = False
@@ -124,6 +125,7 @@ class GloverWeb(WebWorld):
         OptionGroup("Garibs", [
             Options.GaribLogic,
             Options.GaribSorting,
+            Options.GaribLocalPercentage,
             Options.GaribOrderOverrides,
             Options.RandomGaribSounds,
             Options.MadGaribs,
@@ -314,6 +316,9 @@ class GloverWorld(World):
         #Level Portal Randomization
         self.wayroom_entrances : list[str] = []
         self.overworld_entrances : list[str] = []
+        self.garib_locations : list[Location] = []
+        self.local_garib_items : list[GloverItem] = []
+        self.standard_garib_items : list[GloverItem] = []
         for each_world_prefix in WORLD_PREFIXES:
             for each_level_prefix in LEVEL_PREFIXES:
                 each_entrance : str = each_world_prefix + each_level_prefix
@@ -470,6 +475,8 @@ class GloverWorld(World):
 
     def validate_options(self):
         #Host settings
+        if self.using_ut:
+            return
         if (not self.settings.allow_garibsanity) and self.options.garib_logic == GaribLogic.option_garibsanity:
             raise OptionError("Host must enable Garibsanity for you to use this option!")
         if (not self.settings.allow_checkpoint_overrides) and len(self.options.checkpoint_overrides.value.keys()) > 0:
@@ -921,28 +928,49 @@ class GloverWorld(World):
     def percent_of(self, percent : int) -> float:
         return (float(percent) / 100.0)
 
-    def create_items(self) -> None:
+    def construct_localized_garib_list(self) -> None:
+        #Filler garibs can be disabled here
+        if self.garibs_are_filler and self.options.disable_garib_items:
+            return
+        
         #Garib Logic
-        garib_items = []
+        garib_item_names = []
         match self.options.garib_logic:
             #0: Level Garibs (No items to be sent)
             #Garib Groups
             case GaribLogic.option_garib_groups:
                 if self.options.garib_sorting == GaribSorting.option_by_level:
-                    garib_items = list(world_garib_table.keys())
+                    garib_item_names = list(world_garib_table.keys())
                     if not self.options.bonus_levels:
-                        garib_items = list(filter(lambda a: a[3:4] != "?", garib_items))
+                        garib_item_names = list(filter(lambda a: a[3:4] != "?", garib_item_names))
                 else:
-                    garib_items = list(decoupled_garib_table.keys())
+                    garib_item_names = list(decoupled_garib_table.keys())
             #Individual Garibs
             case GaribLogic.option_garibsanity:
                 if self.options.garib_sorting == GaribSorting.option_by_level:
-                    garib_items = list(garibsanity_world_table.keys())
+                    garib_item_names = list(garibsanity_world_table.keys())
                     if not self.options.bonus_levels:
-                        garib_items = list(filter(lambda a: a[3:4] != "?", garib_items))
+                        garib_item_names = list(filter(lambda a: a[3:4] != "?", garib_item_names))
                 else:
-                    garib_items = ["Garibsanity"]
+                    garib_item_names = ["Garibsanity"]
         
+        for each_garib_name in garib_item_names:
+            for _ in range(find_item_data(self, each_garib_name).qty):
+                glover_garib = self.create_item(each_garib_name)
+                self.standard_garib_items.append(glover_garib)
+
+        if self.options.item_links.value != []:
+            logging.warning("Item Links messes with Garib Local Fills! Skipping local fill step...")
+            return
+        max_fillable : float = min(len(self.garib_locations), len(self.standard_garib_items))
+        to_place : int = round(max_fillable * self.percent_of(self.options.garib_local_percent.value))
+        for _ in range(to_place):
+            self.local_garib_items.append(self.standard_garib_items.pop())
+
+    def create_items(self) -> None:
+        #Creates the localized garib list
+        self.construct_localized_garib_list()
+
         #Checkpoint Logic
         checkpoint_items = []
         if self.options.checkpoint_checks.value:
@@ -986,15 +1014,15 @@ class GloverWorld(World):
         all_core_items.extend(portalsanity_items)
         all_core_items.extend(event_items)
         all_core_items.extend(potion_items)
-        #Filler garibs can be disabled here
-        if (not self.garibs_are_filler) or not self.options.disable_garib_items:
-            all_core_items.extend(garib_items)
         core_item_count = 0
         #Core Items
         for each_item in all_core_items:
             for _ in range(find_item_data(self, each_item).qty):
-                self.multiworld.itempool.append(self.create_item(each_item))
+                glover_item = self.create_item(each_item)
+                self.multiworld.itempool.append(glover_item)
                 core_item_count += 1
+        core_item_count += len(self.standard_garib_items)
+        self.multiworld.itempool.extend(self.standard_garib_items)
 
         #Calculate the total number of filler items needed to fill the missing locations
         total_locations : int = len(self.multiworld.get_unfilled_locations(self.player))
@@ -1393,7 +1421,6 @@ class GloverWorld(World):
                 victory_condition = str(rggs_to_win) + " Golden Garibs"
                 victory_location.place_locked_item(self.create_event(victory_condition))
                 set_rule(victory_location, lambda state, rgg = rggs_to_win: state.has("Golden Garib", player, rgg))
-                print(victory_condition)
             case _:
                 victory_condition = "Endscreen"
         multiworld.completion_condition[player] = lambda state: state.has(victory_condition, player)
@@ -1643,6 +1670,18 @@ class GloverWorld(World):
 
     def fill_hook(self, progitempool: list[Item], usefulitempool: list[Item], filleritempool: list[Item], fill_locations: list[Location]):
         progitempool.sort(key = lambda item: item.player == self.player and self.is_garib_item(item.name))
+
+    def get_pre_fill_items(self):
+        return self.local_garib_items
+
+    def pre_fill(self):
+        self.random.shuffle(self.garib_locations)
+        for each_local_garib in self.local_garib_items:
+            local_location = self.garib_locations.pop()
+            try:
+                local_location.place_locked_item(each_local_garib)
+            except:
+                raise FillError("Could not locally fill garibs to garib locations! Start may be too restrictive, plando may be interfering, or Garib Local Percentage may be to high.")
 
     def fill_slot_data(self) -> Dict[str, Any]:
         options = self.build_options()

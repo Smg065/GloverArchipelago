@@ -17383,7 +17383,7 @@
 				},
 				{
 					"ballRequirement": false,
-					"regionIndex": 4,
+					"regionIndex": 21,
 					"trickDifficulty": 0
 				}
 			],
@@ -28155,6 +28155,7 @@
 				{
 					"ballRequirement": false,
 					"mv0": 25,
+					"mv1": 3,
 					"regionIndex": 3,
 					"trickDifficulty": 0
 				}

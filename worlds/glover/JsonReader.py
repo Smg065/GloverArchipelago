@@ -448,6 +448,7 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
                     each_garib = each_location_data.ap_ids[each_garib_index]
                     location : Location = Location(player, self.location_id_to_name[each_garib], each_garib, region_for_use)
                     region_for_use.locations.append(location)
+                    self.garib_locations.append(location)
                     if not rules_applied:
                         access_methods_to_rules(self, each_location_data.methods, location)
                     #Garibs give score
@@ -460,6 +461,7 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
                     group_offset += 10000
                 location : Location = Location(player, each_location_data.name, group_offset, region_for_use)
                 region_for_use.locations.append(location)
+                self.garib_locations.append(location)
                 if not rules_applied:
                     access_methods_to_rules(self, each_location_data.methods, location)
                 #Garibs give score

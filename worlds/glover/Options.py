@@ -92,6 +92,16 @@ class GaribSorting(Choice):
     option_random_order = 2
     default = 1
 
+class GaribLocalPercentage(Range):
+    """The percentage of Garibs that are kept in Garib locations.
+    Primarily used with Garibsanity to prevent games from being griefed with items.
+    """
+    visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
+    display_name = "Garib Sorting"
+    range_start = 0
+    range_end = 100
+    default = 80
+
 class GaribOrderOverrides(OptionCounter):
     """The postions of checkpoints when Garib Sorting is set to Random Order.
     Structured World Name[Level Number] : Array Positon
@@ -564,6 +574,7 @@ class GloverOptions(DeathLinkMixin, PerGameCommonOptions):
 
     garib_logic : GaribLogic
     garib_sorting : GaribSorting
+    garib_local_percent : GaribLocalPercentage
     garib_order_overrides : GaribOrderOverrides
     mad_garibs : MadGaribs
     random_garib_sounds : RandomGaribSounds

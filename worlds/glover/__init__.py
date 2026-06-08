@@ -218,7 +218,7 @@ class GloverWorld(World):
     Glover is an N64 physics puzzle platforming game.
     """
     game: str = "Glover"
-    version: str = "V1.1"
+    version: str = "V1.1.1"
     web = GloverWeb()
     topology_present = True
     settings: GloverSettings

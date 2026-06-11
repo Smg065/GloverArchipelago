@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from schema import And, Optional, Schema
 from Options import ExcludeLocations, NamedRange, OptionCounter, OptionDict, OptionSet, Toggle, PerGameCommonOptions, StartInventoryPool, Choice, DefaultOnToggle, Range, DeathLinkMixin, Visibility
 
-level_prefixes = tuple(["Atl", "Crn", "Prt", "Pht", "FoF", "Otw"])
+level_prefixes = tuple(["Atl", "Car", "Pir", "Pre", "FoF", "Otw"])
 level_suffixes = tuple(["1", "2", "3", "!", "?"])
 
 class VictoryCondition(Choice):
@@ -138,7 +138,7 @@ class EntranceRandomizer(DefaultOnToggle):
 class EntranceOverrides(OptionDict):
     """The postions of levels when Spawn Randomizer is on.
     Structured {"Level" : "Original Door"}
-    Example [{"Atl1" : "FoF!"}, {"Atl?" : "Otw?"}]"""
+    Example {"Atl1" : "FoF!", "Atl?" : "Otw?"}"""
     visibility = Visibility.template | Visibility.spoiler | Visibility.complex_ui
     schema = Schema({
         Optional(And(str, lambda level_name : level_name.startswith(level_prefixes)
@@ -187,7 +187,7 @@ class SpawningCheckpointRandomizer(Toggle):
 class CheckpointOverrides(OptionCounter):
     """The postions of checkpoints when Spawn Randomizer is on.
     Structured World Name[Level Number] : [Checkpoint Number]
-    Example "Atl3" : 2 (Spawns you at the top of the stairs in Atlantis 3)"""
+    Example {"Atl3" : 2} (Spawns you at the top of the stairs in Atlantis 3)"""
     visibility = Visibility.template | Visibility.spoiler | Visibility.complex_ui
     min = 1
     max = 5

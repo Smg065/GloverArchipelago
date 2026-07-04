@@ -11,7 +11,7 @@ local math = require('math')
 require('common')
 
 local SCRIPT_VERSION = 1
-local GVR_VERSION = "V1.1"
+local GVR_VERSION = "V1.1.1"
 local PLAYER = ""
 local SEED = 0
 

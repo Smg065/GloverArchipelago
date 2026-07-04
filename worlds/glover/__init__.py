@@ -803,6 +803,10 @@ class GloverWorld(World):
         #Jump randomization is so easy it can just be done here
         if not self.options.randomize_jump:
             self.multiworld.push_precollected(self.create_item("Jump"))
+        #Portalsanity Open Levels Interaction
+        if self.options.portalsanity and self.options.open_levels:
+            for precollect in list(portalsanity_table.keys()):
+                self.multiworld.push_precollected(self.create_item(precollect))
         #You can always grab
         self.multiworld.push_precollected(self.create_item("Grab"))
         #Create fake items

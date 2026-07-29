@@ -11883,8 +11883,9 @@ GLOVERHACK = {
 
 	base_pointer = 0x400000,
     pc = 0x0,
-    ap_items = 0xA2,
-    ap_world = 0xED4,
+    ap_items = 0xA4,
+    tready = 0xDC7,
+    ap_world = 0xED8,
       hub_entrance = 0x0,
       door_number = 0x1,
       warp_spawn_offset = 0x2,
@@ -11931,7 +11932,7 @@ GLOVERHACK = {
     ap_world_offset = 0xD94,
     ap_hub_order = 0x0,
     garib_totals = 0xE,
-    wayroom_locations = 0x1C154,
+    wayroom_locations = 0x1C158,
       wayroom_id = 0x4,
       wayroom_collected = 0x6,
         wr_tip_text = 0x8,
@@ -11943,7 +11944,7 @@ GLOVERHACK = {
           wr_line6 = 0x69,
          wr_last_line = 0x7E,
     wayroom_size = 0x88,
-    chicken_collected = 0x1C484,
+    chicken_collected = 0x1C488,
     wayroom_completed_stars = 0x8E,
     wayroom_completed_size = 0x1,
     settings = 0x96,
@@ -11958,13 +11959,14 @@ GLOVERHACK = {
       random_garib_sounds = 0x8,
       portalsanity = 0x9,
       trap_timer = 0xA,
+      boss_world_bonus = 0xC,
     hub_map = 0x8,
     world_map = 0x9,
-    n64_deathlink = 0xDC9,
-    n64_taglink = 0xDCA,
-    ROM_MAJOR_VERSION = 0xED1,
-    ROM_MINOR_VERSION = 0xED2,
-    ROM_PATCH_VERSION = 0xED3,
+    n64_deathlink = 0xDCB,
+    n64_taglink = 0xDCC,
+    ROM_MAJOR_VERSION = 0xED3,
+    ROM_MINOR_VERSION = 0xED4,
+    ROM_PATCH_VERSION = 0xED5,
 }
 
 function GLOVERHACK:new(t)
@@ -12603,6 +12605,10 @@ end
 
 function set_open_world_bosslock()
 	GVR:setItem(ITEM_TABLE["AP_OPEN_WORLDS_X_BOSSES"], 1)
+end
+
+function set_open_world_bosslock_bonuses(nState)
+	mainmemory.writebyte(GVR.boss_world_bonus + GLOVERHACK:getSettingPointer(), nState)
 end
 
 function cheat_chicken_check()
@@ -13752,6 +13758,7 @@ function process_slot(block)
 	if block['slot_open_world_bosslock'] ~= nil and block['slot_open_world_bosslock'] ~= 0
 	then
 		set_open_world_bosslock()
+		set_open_world_bosslock_bonuses(block['slot_open_world_bosslock'] - 1)
 	end
 	
 	if block['slot_garib_logic'] ~= nil

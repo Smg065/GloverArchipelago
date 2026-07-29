@@ -304,7 +304,7 @@ class GloverWorld(World):
         return -1
 
     def __init__(self, world, player):
-        self.version = "V1.1"
+        self.version = "V1.1.1"
         self.spawn_checkpoint = [
             2,3,3,
             4,5,4,

@@ -97,7 +97,7 @@ class GaribLocalPercentage(Range):
     Primarily used with Garibsanity to prevent games from being griefed with items.
     """
     visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
-    display_name = "Garib Sorting"
+    display_name = "Garib Local Percentage"
     range_start = 0
     range_end = 100
     default = 80

@@ -97,7 +97,7 @@ class GaribLocalPercentage(Range):
     Primarily used with Garibsanity to prevent games from being griefed with items.
     """
     visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
-    display_name = "Garib Sorting"
+    display_name = "Garib Local Percentage"
     range_start = 0
     range_end = 100
     default = 80
@@ -159,11 +159,15 @@ class OpenLevels(Toggle):
     visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
     display_name = "Open Levels"
 
-class OpenLevelsBosslock(Toggle):
+class OpenLevelsBosslock(Choice):
     """Opens doors 1, 2 and 3 in each world and only lets you access the boss when all 3 have been completed.
+    If set to Bonuses, it also opens the bonus level and expects them to be cleared.
     Incompatable with Open Levels and Portalsanity."""
     visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
     display_name = "Open Level Bosslock"
+    option_off = 0
+    option_on = 1
+    option_bonuses = 2
 
 class Portalsanity(Toggle):
     """Goals and All Garibs in Level are checks. Portals and garib completion marks are items. Default off.

@@ -10763,6 +10763,7 @@
 					},
 					{
 						"ballRequirement": false,
+						"ck0": "Raise Ship",
 						"mv0": 25,
 						"regionIndex": 13,
 						"trickDifficulty": 0

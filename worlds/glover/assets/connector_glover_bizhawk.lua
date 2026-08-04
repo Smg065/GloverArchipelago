@@ -12607,6 +12607,10 @@ function set_open_world_bosslock()
 	GVR:setItem(ITEM_TABLE["AP_OPEN_WORLDS_X_BOSSES"], 1)
 end
 
+function set_open_world_bosslock_bonuses(nState)
+	mainmemory.writebyte(GVR.boss_world_bonus + GLOVERHACK:getSettingPointer(), nState)
+end
+
 function cheat_chicken_check()
     local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
 	return mainmemory.readbyte(hackPointerIndex + GVR.chicken_collected)
@@ -13754,6 +13758,7 @@ function process_slot(block)
 	if block['slot_open_world_bosslock'] ~= nil and block['slot_open_world_bosslock'] ~= 0
 	then
 		set_open_world_bosslock()
+		set_open_world_bosslock_bonuses(block['slot_open_world_bosslock'] - 1)
 	end
 	
 	if block['slot_garib_logic'] ~= nil

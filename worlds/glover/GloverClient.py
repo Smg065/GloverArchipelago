@@ -67,6 +67,7 @@ itm_name_to_id = network_data_package["games"]["Glover"]["item_name_to_id"]
 script_version: int = 1
 version: str = "V1.1.1"
 patch_md5: str = "33abfb9ba7180c61156287b868119ebf"
+steam_patch_md5: str = "78040fc7b1aee8af0396674789736151"
 gvr_options = settings.get_settings().glover_options
 program = None
 
@@ -103,6 +104,12 @@ def patch_rom(rom_path, dst_path, patch_path):
       swapped[i] = rom[i+1]
       swapped[i+1] = rom[i]
     rom = bytes(swapped)
+  elif md5 == "f73e6d5bf24d290f5697078eea7d9256": #Steam version 
+        patch_path = "assets/GloverSteam.patch"
+        with open_world_file(patch_path) as f:
+           patch = f.read()
+        write_file(dst_path, bsdiff4.patch(rom, patch))
+        return True
   elif md5 != "87aa5740dff79291ee97832da1f86205":
     logger.error(f"Unknown ROM! Please use /patch or restart the Glover Client to try again.")
     return False
@@ -130,7 +137,7 @@ async def patch_and_run(show_path):
     existing_md5 = hashlib.md5(rom).hexdigest()
   await asyncio.sleep(0.01)
   patch_successful = True
-  if not patch_path or existing_md5 != patch_md5:
+  if not patch_path or (existing_md5 != patch_md5 or existing_md5 != steam_patch_md5):
     rom = gvr_options.get("rom_path", "")
     if not rom or not os.path.isfile(rom):
       rom = Utils.open_filename(f"Open your {game_name} US ROM", (("Rom Files", (".z64", ".n64")), ("All Files", "*"),))

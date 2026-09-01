@@ -11945,6 +11945,7 @@ GLOVERHACK = {
          wr_last_line = 0x7E,
     wayroom_size = 0x88,
     chicken_collected = 0x1C488,
+    crystal_handins = 0x1C489,
     wayroom_completed_stars = 0x8E,
     wayroom_completed_size = 0x1,
     settings = 0x96,
@@ -11967,6 +11968,7 @@ GLOVERHACK = {
     ROM_MAJOR_VERSION = 0xED3,
     ROM_MINOR_VERSION = 0xED4,
     ROM_PATCH_VERSION = 0xED5,
+    ROM_STEAM_VERSION = 0xED6,
 }
 
 function GLOVERHACK:new(t)

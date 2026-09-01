@@ -12620,6 +12620,7 @@ end
 
 function ball_returned_check()
     local check = {}
+	-- TODO: Fix with Slot 2 and Steam Version
 	local highest_returned = mainmemory.readbyte(0x1EAA57)
 	-- Only run this in the crystal cave
 	if CURRENT_MAP ~= 0x08 then
@@ -12986,6 +12987,7 @@ function receive_checkpoint(world_index, checkpoint_number)
 end
 
 function recieve_portalsanity(itemId)
+	-- TODO: Fix with Steam Version for Star Jump Clip
     if itemId == 6500000 then
         GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR1_STAR"], 1)
     elseif itemId == 6500001 then

@@ -687,6 +687,7 @@ def get_slot_payload(ctx: GloverContext):
             "slot_traplink": ctx.link_table["TRAP"].enabled,
             "slot_version": version,
             "slot_garib_logic": ctx.slot_data["garib_logic"],
+            "slot_trick_difficulty": ctx.slot_data["difficulty_logic"],
             "slot_portalsanity": ctx.slot_data["portalsanity"],
             "slot_open_worlds": ctx.slot_data["open_worlds"],
             "slot_open_levels": ctx.slot_data["open_levels"],

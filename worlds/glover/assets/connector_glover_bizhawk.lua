@@ -12629,7 +12629,7 @@ function ball_returned_check()
 	if CURRENT_MAP ~= 0x08 then
 		return check
 	end
-	local highest_returned = mainmemory.readbyte(self.crystal_handins + hackPointerIndex)
+	local highest_returned = mainmemory.readbyte(GLOVERHACK.crystal_handins + hackPointerIndex)
 	for i=1,7
 	do
 		check[tostring(0x79A + (i - 1))] = i <= highest_returned
@@ -12993,15 +12993,18 @@ end
 function portalsanity_star_handler(hubName, doorNumber)
 	GVR:setItem(ITEM_TABLE["AP_"..hubName.."_DOOR"..tostring(doorNumber).."_STAR"], 1)
     local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
-	if mainmemory.readbyte(self.ROM_STEAM_VERSION + hackPointerIndex) == 1
+	if mainmemory.readbyte(GLOVERHACK.ROM_STEAM_VERSION + hackPointerIndex) == 1
 	then
 		local allDoorStrings = {}
 		if TRICK_DIFFICULTY >= 1
 		then
-			table.insert(allDoorStrings, tostring(doorNumber))
+			if doorNumber > 1
+			then
+				table.insert(allDoorStrings, tostring(doorNumber))
+			end
 		end
 		if TRICK_DIFFICULTY >= 2 then
-			if doorNumber > 1
+			if doorNumber > 2
 			then
 				table.insert(allDoorStrings, tostring(doorNumber - 1))
 			end
@@ -13011,7 +13014,7 @@ function portalsanity_star_handler(hubName, doorNumber)
 			end
 		end
 		for i, doorString in pairs(allDoorStrings) do
-			GVR:setItem(ITEM_TABLE["AP"..hubName.."DOOR"..doorString.."_OPEN"], 1);
+			GVR:setItem(ITEM_TABLE["AP_"..hubName.."_DOOR"..doorString.."_OPEN"], 1);
 		end
 	end
 end

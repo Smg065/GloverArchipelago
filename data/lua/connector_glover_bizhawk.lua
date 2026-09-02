@@ -43,6 +43,10 @@ local LEVEL_GARIBS = false
 local GARIB_GROUPS = false
 local GARIB_ORDER = {}
 
+-------------- MISC ------------------
+
+local TRICK_DIFFICULTY = 0
+
 -------------- TOTALS VARS -----------
 local TOTAL_SINGLE_GARIBS = 0;
 local TOTAL_WORLD_GARIBS = {
@@ -11945,6 +11949,7 @@ GLOVERHACK = {
          wr_last_line = 0x7E,
     wayroom_size = 0x88,
     chicken_collected = 0x1C488,
+    crystal_handins = 0x1C489,
     wayroom_completed_stars = 0x8E,
     wayroom_completed_size = 0x1,
     settings = 0x96,
@@ -11967,6 +11972,7 @@ GLOVERHACK = {
     ROM_MAJOR_VERSION = 0xED3,
     ROM_MINOR_VERSION = 0xED4,
     ROM_PATCH_VERSION = 0xED5,
+    ROM_STEAM_VERSION = 0xED6,
 }
 
 function GLOVERHACK:new(t)
@@ -12618,11 +12624,12 @@ end
 
 function ball_returned_check()
     local check = {}
-	local highest_returned = mainmemory.readbyte(0x1EAA57)
+	local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
 	-- Only run this in the crystal cave
 	if CURRENT_MAP ~= 0x08 then
 		return check
 	end
+	local highest_returned = mainmemory.readbyte(GLOVERHACK.crystal_handins + hackPointerIndex)
 	for i=1,7
 	do
 		check[tostring(0x79A + (i - 1))] = i <= highest_returned
@@ -12983,115 +12990,144 @@ function receive_checkpoint(world_index, checkpoint_number)
 	end
 end
 
+function portalsanity_star_handler(hubName, doorNumber)
+	GVR:setItem(ITEM_TABLE["AP_"..hubName.."_DOOR"..tostring(doorNumber).."_STAR"], 1)
+    local hackPointerIndex = GLOVERHACK:dereferencePointer(GVR.base_pointer);
+	if mainmemory.readbyte(GLOVERHACK.ROM_STEAM_VERSION + hackPointerIndex) == 1
+	then
+		local allDoorStrings = {}
+		if TRICK_DIFFICULTY >= 1
+		then
+			if doorNumber > 1
+			then
+				table.insert(allDoorStrings, tostring(doorNumber))
+			end
+		end
+		if TRICK_DIFFICULTY >= 2 then
+			if doorNumber > 2
+			then
+				table.insert(allDoorStrings, tostring(doorNumber - 1))
+			end
+			if doorNumber < 5
+			then
+				table.insert(allDoorStrings, tostring(doorNumber + 1))
+			end
+		end
+		for i, doorString in pairs(allDoorStrings) do
+			GVR:setItem(ITEM_TABLE["AP_"..hubName.."_DOOR"..doorString.."_OPEN"], 1);
+		end
+	end
+end
+
 function recieve_portalsanity(itemId)
     if itemId == 6500000 then
-        GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR1_STAR"], 1)
+		portalsanity_star_handler("ATLANTIS", 1)
     elseif itemId == 6500001 then
         GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR2_OPEN"], 1)
     elseif itemId == 6500002 then
-        GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR2_STAR"], 1)
+		portalsanity_star_handler("ATLANTIS", 2)
     elseif itemId == 6500003 then
         GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR3_OPEN"], 1)
     elseif itemId == 6500004 then
-        GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR3_STAR"], 1)
+		portalsanity_star_handler("ATLANTIS", 3)
     elseif itemId == 6500005 then
         GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR4_OPEN"], 1)
     elseif itemId == 6500006 then
-        GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR4_STAR"], 1)
+		portalsanity_star_handler("ATLANTIS", 4)
     elseif itemId == 6500007 then
         GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR5_OPEN"], 1)
     elseif itemId == 6500008 then
-        GVR:setItem(ITEM_TABLE["AP_ATLANTIS_DOOR5_STAR"], 1)
+		portalsanity_star_handler("ATLANTIS", 5)
     elseif itemId == 6500015 then
-        GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR1_STAR"], 1)
+        portalsanity_star_handler("CARNIVAL", 1)
     elseif itemId == 6500016 then
         GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR2_OPEN"], 1)
     elseif itemId == 6500017 then
-        GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR2_STAR"], 1)
+        portalsanity_star_handler("CARNIVAL", 2)
     elseif itemId == 6500018 then
         GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR3_OPEN"], 1)
     elseif itemId == 6500019 then
-        GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR3_STAR"], 1)
+        portalsanity_star_handler("CARNIVAL", 3)
     elseif itemId == 6500020 then
         GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR4_OPEN"], 1)
     elseif itemId == 6500021 then
-        GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR4_STAR"], 1)
+        portalsanity_star_handler("CARNIVAL", 4)
     elseif itemId == 6500022 then
         GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR5_OPEN"], 1)
     elseif itemId == 6500023 then
-        GVR:setItem(ITEM_TABLE["AP_CARNIVAL_DOOR5_STAR"], 1)
+        portalsanity_star_handler("CARNIVAL", 5)
     elseif itemId == 6500036 then
-        GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR1_STAR"], 1)
+        portalsanity_star_handler("PIRATES", 1)
     elseif itemId == 6500037 then
         GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR2_OPEN"], 1)
     elseif itemId == 6500038 then
-        GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR2_STAR"], 1)
+        portalsanity_star_handler("PIRATES", 2)
     elseif itemId == 6500039 then
         GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR3_OPEN"], 1)
     elseif itemId == 6500040 then
-        GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR3_STAR"], 1)
+        portalsanity_star_handler("PIRATES", 3)
     elseif itemId == 6500041 then
         GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR4_OPEN"], 1)
     elseif itemId == 6500042 then
-        GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR4_STAR"], 1)
+        portalsanity_star_handler("PIRATES", 4)
     elseif itemId == 6500043 then
         GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR5_OPEN"], 1)
     elseif itemId == 6500044 then
-        GVR:setItem(ITEM_TABLE["AP_PIRATES_DOOR5_STAR"], 1)
+        portalsanity_star_handler("PIRATES", 5)
     elseif itemId == 6500060 then
-        GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR1_STAR"], 1)
+        portalsanity_star_handler("PREHISTORIC", 1)
     elseif itemId == 6500061 then
         GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR2_OPEN"], 1)
     elseif itemId == 6500062 then
-        GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR2_STAR"], 1)
+        portalsanity_star_handler("PREHISTORIC", 2)
     elseif itemId == 6500063 then
         GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR3_OPEN"], 1)
     elseif itemId == 6500064 then
-        GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR3_STAR"], 1)
+        portalsanity_star_handler("PREHISTORIC", 3)
     elseif itemId == 6500065 then
         GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR4_OPEN"], 1)
     elseif itemId == 6500066 then
-        GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR4_STAR"], 1)
+        portalsanity_star_handler("PREHISTORIC", 4)
     elseif itemId == 6500067 then
         GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR5_OPEN"], 1)
     elseif itemId == 6500068 then
-        GVR:setItem(ITEM_TABLE["AP_PREHISTORIC_DOOR5_STAR"], 1)
+        portalsanity_star_handler("PREHISTORIC", 5)
     elseif itemId == 6500082 then
-        GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR1_STAR"], 1)
+        portalsanity_star_handler("FORTRESS", 1)
     elseif itemId == 6500083 then
         GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR2_OPEN"], 1)
     elseif itemId == 6500084 then
-        GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR2_STAR"], 1)
+        portalsanity_star_handler("FORTRESS", 2)
     elseif itemId == 6500085 then
         GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR3_OPEN"], 1)
     elseif itemId == 6500086 then
-        GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR3_STAR"], 1)
+        portalsanity_star_handler("FORTRESS", 3)
     elseif itemId == 6500087 then
         GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR4_OPEN"], 1)
     elseif itemId == 6500088 then
-        GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR4_STAR"], 1)
+        portalsanity_star_handler("FORTRESS", 4)
     elseif itemId == 6500089 then
         GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR5_OPEN"], 1)
     elseif itemId == 6500090 then
-        GVR:setItem(ITEM_TABLE["AP_FORTRESS_DOOR5_STAR"], 1)
+        portalsanity_star_handler("FORTRESS", 5)
     elseif itemId == 6500099 then
-        GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR1_STAR"], 1)
+        portalsanity_star_handler("SPACE", 1)
     elseif itemId == 6500100 then
         GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR2_OPEN"], 1)
     elseif itemId == 6500101 then
-        GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR2_STAR"], 1)
+        portalsanity_star_handler("SPACE", 2)
     elseif itemId == 6500102 then
         GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR3_OPEN"], 1)
     elseif itemId == 6500103 then
-        GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR3_STAR"], 1)
+        portalsanity_star_handler("SPACE", 3)
     elseif itemId == 6500104 then
         GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR4_OPEN"], 1)
     elseif itemId == 6500105 then
-        GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR4_STAR"], 1)
+        portalsanity_star_handler("SPACE", 4)
     elseif itemId == 6500106 then
         GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR5_OPEN"], 1)
     elseif itemId == 6500107 then
-        GVR:setItem(ITEM_TABLE["AP_SPACE_DOOR5_STAR"], 1)
+        portalsanity_star_handler("SPACE", 5)
 	end
 end
 ---------------------------------- MAP FUNCTIONS -----------------------------------
@@ -13760,7 +13796,10 @@ function process_slot(block)
 		set_open_world_bosslock()
 		set_open_world_bosslock_bonuses(block['slot_open_world_bosslock'] - 1)
 	end
-	
+	if block["slot_trick_difficulty"] ~= nil
+	then
+		TRICK_DIFFICULTY = block["slot_trick_difficulty"]
+	end
 	if block['slot_garib_logic'] ~= nil
     then
         GVR:setGaribLogic(block['slot_garib_logic'])

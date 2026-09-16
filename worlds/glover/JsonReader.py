@@ -233,6 +233,8 @@ def connect_region_pairs(self : GloverWorld, pairs : List[RegionPair]):
                     continue
                 if not region_to_connect in pair_ball_connections.keys():
                     pair_ball_connections[region_to_connect] = [each_method]
+                else:
+                    pair_ball_connections[region_to_connect].append(each_method)
             #Create the rules using methods
             for each_connection, methods in pair_ball_connections.items():
                 entrance : Entrance | Any = each_connection.connect(ball_region)
@@ -247,6 +249,8 @@ def connect_region_pairs(self : GloverWorld, pairs : List[RegionPair]):
                     continue
                 if not region_to_connect in pair_no_ball_connections.keys():
                     pair_no_ball_connections[region_to_connect] = [each_method]
+                else:
+                    pair_no_ball_connections[region_to_connect].append(each_method)
             no_ball_region = multiworld.get_region(each_pair.name, player)
             #Create the rules using methods
             for each_connection, methods in pair_no_ball_connections.items():

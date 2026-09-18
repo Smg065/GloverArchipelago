@@ -1204,6 +1204,13 @@
 					"ck0": "Ballswitch Drain",
 					"regionIndex": 4,
 					"trickDifficulty": 0
+				},
+				{
+					"ballRequirement": true,
+					"mv0": 3,
+					"mv1": 29,
+					"regionIndex": 4,
+					"trickDifficulty": 1
 				}
 			],
 			"Bridge A Garibs": [
@@ -13743,6 +13750,11 @@
 						"mv0": 25,
 						"regionIndex": 16,
 						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": false,
+						"regionIndex": 19,
+						"trickDifficulty": 0
 					}
 				],
 				"I": 15
@@ -13778,6 +13790,7 @@
 					{
 						"ballRequirement": false,
 						"ck0": "Stairs",
+						"mv0": 25,
 						"regionIndex": 18,
 						"trickDifficulty": 0
 					}

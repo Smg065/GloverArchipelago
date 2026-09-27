@@ -431,6 +431,7 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
         if len(location_regions) > 1:
             #Multi location construction creates a shared region to reach this location
             region_for_use = Region(each_location_data.name + " Region", player, multiworld, region_level.name)
+            multiworld.regions.append(region_for_use)
             #Apply the rules here
             rules_applied = True
             for each_region_name, each_region_methods in location_regions.items():

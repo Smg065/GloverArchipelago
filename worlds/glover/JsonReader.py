@@ -121,6 +121,9 @@ def create_location_data(self : GloverWorld, check_name : str, check_info : list
             methods.append(new_method)
     #Only create if there's a method for it
     methods = remove_higher_difficulty_methods(self, methods)
+    if check_info[0]["TYPE"] == 3 and self.options.checkpoint_checks:
+        # add a method for accessing Checkpoint locations with the Checkpoint item
+        methods.append(AccessMethod(-1, False, 0, [level_name + " " + check_name]))
     if len(methods) == 0:
         return outputs
     ap_ids : list[int] = []
@@ -411,16 +414,21 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
             region_index = each_method.region_index
             region_exists : bool = False
             region_name : str
-            for each_pair in map_regions:
-                #If you're in the right region
-                if region_index == each_pair.base_id:
-                    #That's a valid region name
-                    region_name = each_pair.name
-                    if each_method.ball_in_region:
-                        region_name = region_name + " W/Ball"
-                        region_exists = each_pair.ball_region_exists
-                    else:
-                        region_exists = each_pair.no_ball_region_exists
+            if region_index == -1:
+                # This is coming from a checkpoint location method to access it with a checkpoint item
+                region_name = region_level.name
+                region_exists = True
+            else:
+                for each_pair in map_regions:
+                    #If you're in the right region
+                    if region_index == each_pair.base_id:
+                        #That's a valid region name
+                        region_name = each_pair.name
+                        if each_method.ball_in_region:
+                            region_name = region_name + " W/Ball"
+                            region_exists = each_pair.ball_region_exists
+                        else:
+                            region_exists = each_pair.no_ball_region_exists
             #If the region exists, assign it to the location regions
             if region_exists:
                 if not region_name in location_regions:
@@ -431,6 +439,7 @@ def assign_locations_to_regions(self : GloverWorld, region_level : RegionLevel, 
         if len(location_regions) > 1:
             #Multi location construction creates a shared region to reach this location
             region_for_use = Region(each_location_data.name + " Region", player, multiworld, region_level.name)
+            multiworld.regions.append(region_for_use)
             #Apply the rules here
             rules_applied = True
             for each_region_name, each_region_methods in location_regions.items():

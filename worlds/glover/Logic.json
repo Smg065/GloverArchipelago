@@ -27779,11 +27779,6 @@
 						"ballRequirement": false,
 						"regionIndex": 12,
 						"trickDifficulty": 0
-					},
-					{
-						"ballRequirement": false,
-						"regionIndex": 10,
-						"trickDifficulty": 0
 					}
 				],
 				"I": 11
@@ -27820,6 +27815,12 @@
 						"mv0": 25,
 						"regionIndex": 9,
 						"trickDifficulty": 0
+					},
+					{
+						"ballRequirement": false,
+						"mv0": 25,
+						"regionIndex": 9,
+						"trickDifficulty": 1
 					}
 				],
 				"I": 10

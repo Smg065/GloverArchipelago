@@ -22637,7 +22637,7 @@
 					"TYPE": 1
 				},
 				{
-					"ballRequirement": false,
+					"ballRequirement": true,
 					"regionIndex": 0,
 					"trickDifficulty": 0
 				}
@@ -22761,7 +22761,7 @@
 					"TYPE": 1
 				},
 				{
-					"ballRequirement": false,
+					"ballRequirement": true,
 					"mv0": 8,
 					"regionIndex": 0,
 					"trickDifficulty": 0
@@ -22782,7 +22782,7 @@
 						"TYPE": 8
 					},
 					{
-						"ballRequirement": true,
+						"ballRequirement": false,
 						"regionIndex": 0,
 						"trickDifficulty": 0
 					}
@@ -22794,6 +22794,11 @@
 						"NEEDS_BALL": false,
 						"REGION": 0,
 						"TYPE": 8
+					},
+					{
+						"ballRequirement": false,
+						"regionIndex": 0,
+						"trickDifficulty": 0
 					}
 				],
 				"I": 0

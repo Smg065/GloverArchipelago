@@ -12348,6 +12348,59 @@ function GLOVERHACK:getRomVersion()
     end
 end
 
+function steam_version_difference_solver(retTable)
+    local hackPointerIndex = GLOVERHACK:dereferencePointer(GLOVERHACK.base_pointer);
+	if mainmemory.readbyte(GLOVERHACK.ROM_STEAM_VERSION + hackPointerIndex) == 0
+	then
+		return retTable
+	end
+	-- Pirates 1 Missing Elevator/Target
+	if CURRENT_MAP == 20
+	then
+		-- Always collect the target, it physically doesn't exist
+		if mainmemory.readbyte(GLOVERHACK.randomize_switches + GLOVERHACK:getSettingPointer()) == 1
+		then
+			retTable = force_collect(retTable, "switch", "0x2D1", "721")
+		end
+		if LEVEL_GARIBS == false
+		then
+		-- Collect the checkpoint and garibs if you have the elevator
+		if GARIB_GROUPS == false
+		then
+			-- Garibsanity
+				retTable = force_collect(retTable, "garibs", "0x29E", "670")
+				retTable = force_collect(retTable, "garibs", "0x29F", "671")
+				retTable = force_collect(retTable, "garibs", "0x2A0", "672")
+				retTable = force_collect(retTable, "garibs", "0x2A1", "673")
+			else
+				-- Garib Group
+				retTable = force_collect(retTable, "garib_groups", "0x29AE", "10670")
+			end
+		end
+		-- Checkpoint
+		if mainmemory.readbyte(GLOVERHACK.randomize_checkpoints + GLOVERHACK:getSettingPointer()) == 1
+		then
+			retTable = force_collect(retTable, "checkpoint", "0x2C8", "712")
+		end
+	end
+	return retTable
+end
+
+-- Forces an APID as collected if not in the checked map
+function force_collect(retTable, catagory, apId, id)
+	if checked_map[apId] == nil
+	then
+		if retTable[catagory] ~= nil
+		then
+			if retTable[catagory][id] ~= nil
+			then
+				retTable[catagory][id] = true
+			end
+		end
+	end
+	return retTable
+end
+
 function garib_check()
     local checks = {}
         if ADDRESS_MAP[WORLD_NAME] ~= nil
@@ -13485,6 +13538,7 @@ function SendToClient()
     else
         retTable["glover_world"] = CURRENT_MAP;
         retTable["glover_hub"] = CURRENT_HUB;
+		retTable = steam_version_difference_solver(retTable)
     end
 
     local msg = json.encode(retTable).."\n"

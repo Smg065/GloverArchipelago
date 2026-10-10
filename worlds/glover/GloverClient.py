@@ -838,8 +838,9 @@ async def parse_payload(payload: dict, ctx: GloverContext, force: bool):
         ball_return_list = {}
     if isinstance(score_table, list):
         score_table = {}
-    
+
     if demo == False and ctx.sync_ready == True:
+        #Item Handling
         locs1 = []
         scouts1 = []
         scoutsVague = []

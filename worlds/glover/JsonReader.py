@@ -1,3 +1,4 @@
+import copy
 import json
 import pkgutil
 from BaseClasses import Entrance, Location, MultiWorld, Region
@@ -107,6 +108,10 @@ def remove_higher_difficulty_methods(self : GloverWorld, check_methods : list[Ac
         #Difficulty Logic
         if each_method.difficulty <= difficulty_cutoff:
             out_methods.append(each_method)
+        if self.using_ut and each_method.difficulty == difficulty_cutoff + 1:
+            ool_method = copy.deepcopy(each_method)
+            ool_method.required_items.append(self.glitches_item_name)
+            out_methods.append(ool_method)
     return out_methods
 
 

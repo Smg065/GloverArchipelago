@@ -71,10 +71,10 @@ class GloverSettings(settings.Group):
   program_path: ProgramPath | str = ""
   program_args: ProgramArgs | str = "--lua="
   
-  allow_garibsanity : AllowGaribsanity = True
-  allow_checkpoint_overrides : AllowCheckpointOverrides = False
-  allow_entrance_overrides : AllowEntranceOverrides = False
-  allow_garib_order_overrides : AllowGaribOrderOverrides = False
+  allow_garibsanity : AllowGaribsanity | bool = True
+  allow_checkpoint_overrides : AllowCheckpointOverrides | bool = False
+  allow_entrance_overrides : AllowEntranceOverrides | bool = False
+  allow_garib_order_overrides : AllowGaribOrderOverrides | bool = False
 
 class GloverItem(Item):
 	#Start at 650000
@@ -230,6 +230,7 @@ class GloverWorld(World):
     ut_can_gen_without_yaml: bool = True
     using_ut: bool
     visited_worlds: int
+    glitches_item_name: str = "UT_OUT_OF_LOGIC"
 
     #All levels
     existing_levels = [ATLANTIS_1, ATLANTIS_2, ATLANTIS_3, ATLANTIS_BOSS, ATLANTIS_BONUS,

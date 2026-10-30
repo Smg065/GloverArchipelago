@@ -83,6 +83,10 @@ def find_item_data(self, name : str) -> ItemData:
 		out_data : ItemData = misc_table["Golden Garib"]
 		return ItemData(out_data.glid, self.options.golden_garib_count.value, out_data.type, out_data.default_location)
 
+	#UT "glitched" logic item
+	if name == self.glitches_item_name:
+		return ItemData(None, 0, "Progression", "")
+
 	#Fallthrough
 	return ItemData()
 

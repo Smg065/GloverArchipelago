@@ -230,6 +230,7 @@ class GloverWorld(World):
     ut_can_gen_without_yaml: bool = True
     using_ut: bool
     visited_worlds: int
+    glitches_item_name: str = "UT_OUT_OF_LOGIC"
 
     #All levels
     existing_levels = [ATLANTIS_1, ATLANTIS_2, ATLANTIS_3, ATLANTIS_BOSS, ATLANTIS_BONUS,

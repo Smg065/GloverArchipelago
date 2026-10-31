@@ -520,7 +520,7 @@ class GloverWorld(World):
                     raise OptionError("Score \""+ each_score + "\" is not a multiple of 10000!")
                 if each_score_int < 10000:
                     raise OptionError("Score \""+ each_score + "\" is too low!")
-                if each_score_int >= 100000000:
+                if each_score_int >= 1000000:
                     raise OptionError("Score \""+ each_score + "\" is too high!")
 
         for each_level in self.options.level_scores.value:

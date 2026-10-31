@@ -800,7 +800,7 @@ def generate_location_information() -> list:
                 location_name_to_id[prefix + "Score"] = level_score_address
                 location_name_groups["Score"].append(prefix + "Score")
                 location_name_groups[level_name].append(prefix + "Score")
-    for each_score in range(10000, 100000000, 10000):
+    for each_score in range(10000, 1000000, 10000):
         location_name_to_id[str(each_score) + " Score"] = 100000000 + each_score
         location_name_groups["Score"].append(str(each_score) + " Score")
     

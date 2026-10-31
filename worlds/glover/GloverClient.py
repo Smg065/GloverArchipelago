@@ -14,10 +14,17 @@ import zipfile
 import bsdiff4
 import atexit
 
-
-# CommonClient import first to trigger ModuleUpdater
-from CommonClient import CommonContext, server_loop, gui_enabled, \
-    ClientCommandProcessor, logger, get_base_parser
+tracker_loaded = False
+try:
+    #UT Embedded
+    from worlds.tracker.TrackerClient import TrackerGameContext as CommonContext, server_loop, gui_enabled, \
+        TrackerCommandProcessor as ClientCommandProcessor, logger, get_base_parser, UT_VERSION
+    tracker_loaded = True
+except ImportError:
+    # CommonClient import first to trigger ModuleUpdater
+    from CommonClient import CommonContext, server_loop, gui_enabled, \
+        ClientCommandProcessor, logger, get_base_parser
+    UT_VERSION = 0
 import Utils
 import settings
 from Utils import async_start
@@ -66,8 +73,8 @@ loc_name_to_id = network_data_package["games"]["Glover"]["location_name_to_id"]
 itm_name_to_id = network_data_package["games"]["Glover"]["item_name_to_id"]
 script_version: int = 1
 version: str = "V1.1.1"
-patch_md5: str = "a9578c88fc00e4c4af7a266e3e09b347"
-steam_patch_md5: str = "cb98792dbb497161534998c1352ab8b7"
+patch_md5: str = "25383c8431648fac52ee4e771ed0bd1c"
+steam_patch_md5: str = "20ea5ae7714becda79c48116fae8394d"
 gvr_options = settings.get_settings().glover_options
 program = None
 
@@ -428,18 +435,19 @@ class GloverContext(CommonContext):
 
         Window.bind(on_request_close=self.on_request_close)
         asyncio.create_task(patch_and_run(True))
-
-        class GloverManager(GameManager):
+        ui_class = self.make_gui()
+        class GloverManager(ui_class):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Glover Client "+ version + " for AP"
-
+            base_title = f"Glover Client {version}"
+            if tracker_loaded:
+                base_title += f" + UT {UT_VERSION}"
+            base_title +=" for AP"
             def build(self):
                 ret = super().build()
                 self.ctx.tab_items = self.add_client_tab("Items", UILog())
                 return ret
-
         self.ui = GloverManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
@@ -455,10 +463,10 @@ class GloverContext(CommonContext):
             self._messagebox.bind(on_dismiss=cleanup)
             return True
         return False
-
+    
     def on_package(self, cmd, args):
         if cmd == "Connected":
-            self.tracker = GloverItemTracker(self)
+            self.item_tracker = GloverItemTracker(self)
             self.slot_data = args.get("slot_data", None)
             if version != self.slot_data["version"]:
                 logger.error("Your Glover AP does not match with the generated world.")
@@ -475,7 +483,7 @@ class GloverContext(CommonContext):
                 "keys": [f"Glover_{self.team}_{self.slot}_visited_worlds"]
             }]))
         elif cmd == "ReceivedItems":
-            self.tracker.refresh_items()
+            self.item_tracker.refresh_items()
             if self.startup == False:
                 for item in args["items"]:
                     player = ""
@@ -1025,8 +1033,8 @@ async def parse_payload(payload: dict, ctx: GloverContext, force: bool):
                 if crystal_address in ball_return_list:
                     won_game = ball_return_list[crystal_address] == True
             case 2:
-                if "Golden Garib" in ctx.tracker.items:
-                    current_golden_garibs = ctx.tracker.items["Golden Garib"]
+                if "Golden Garib" in ctx.item_tracker.items:
+                    current_golden_garibs = ctx.item_tracker.items["Golden Garib"]
                     won_game = current_golden_garibs >= ctx.slot_data["required_golden_garibs"]
         if won_game and not ctx.finished_game:
             await ctx.send_msgs([{
@@ -1185,6 +1193,9 @@ def main():
 
         ctx = GloverContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="Server Loop")
+        if tracker_loaded:
+            ctx.run_generator()
+            ctx.tags.discard("Tracker")
         if gui_enabled:
             ctx.run_gui()
         ctx.run_cli()

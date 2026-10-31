@@ -914,7 +914,7 @@ class GloverWorld(World):
                 if self == None:
                     #ItemLink Fallback
                     item_classification = ItemClassification.progression
-                elif self.options.difficulty_logic.value == 0:
+                elif self.options.difficulty_logic.value == 0 and not self.using_ut:
                     item_classification = ItemClassification.filler
                 else:
                     item_classification = ItemClassification.progression

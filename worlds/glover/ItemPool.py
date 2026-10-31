@@ -200,7 +200,7 @@ level_event_table = {
 	FEAR_1 + " Coffin Lightning" : 			ItemData(BASE_ID + 92, 1, "Progression", FEAR_1 + ": Push Blocks"),
 	FEAR_1 + " Drawbridge" : 				ItemData(BASE_ID + 93, 1, "Progression", FEAR_1 + ": Coffin Glover Switch"),
 	FEAR_2 + " Garibs Fall" : 				ItemData(BASE_ID + 94, 1, "Progression", FEAR_2 + ": Push Target"),
-	FEAR_2 + " Progressive Gate" : 			ItemData(BASE_ID + 95, 2, "Progression", ""),
+	FEAR_2 + " Doors" :			 			ItemData(BASE_ID + 95, 1, "Progression", ""),
 	FEAR_2 + " Mummy Gate" : 				ItemData(BASE_ID + 96, 1, "Progression", FEAR_2 + ": Mummy"),
 	FEAR_3 + " Gate" : 						ItemData(BASE_ID + 97, 1, "Progression", FEAR_3 + ": Target"),
 	FEAR_3 + " Spikes" : 					ItemData(BASE_ID + 98, 1, "Progression", FEAR_3 + ": Ball Switch"),

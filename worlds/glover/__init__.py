@@ -1734,6 +1734,7 @@ class GloverWorld(World):
         self.options.enemysanity.value = slot_data["enemysanity"]
         self.options.insectity.value = slot_data["insectity"]
         self.options.extra_garibs_value.value = slot_data["extra_garibs_value"]
+        self.options.include_power_ball = slot_data["include_power_ball"]
         # Don't generate a PUML during UT gen (unless debugging)
         self.options.generate_puml.value = False
         # Parse Score checks

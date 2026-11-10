@@ -339,6 +339,11 @@ class ChickenHints(Choice):
     option_progression = 6
     default = 3
 
+class LocalizedHints(DefaultOnToggle):
+    """If hints only select items and locations in your game."""
+    visibility = Visibility.template | Visibility.spoiler | Visibility.simple_ui
+    display_name = "Localized Hints"
+
 class FillerDuration(Range):
     """On a scale from 1-5, how full the potion bottle gets when you are given a filler effect.
     This also changes the duration of traps.
@@ -613,6 +618,7 @@ class GloverOptions(DeathLinkMixin, PerGameCommonOptions):
     chicken_hints : ChickenHints
     mr_tip_text_display : MrTipTextDisplay
     mr_hints_scouts : MrTipScouts
+    localized_hints : LocalizedHints
 
     filler_duration : FillerDuration
     extra_garibs_value : ExtraGaribsValue

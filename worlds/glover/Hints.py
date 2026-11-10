@@ -175,5 +175,10 @@ def get_valid_items(self, item_classes : list[ItemClassification] | None) -> lis
         #No prefills
         if each_item.location == None:
             continue
+        #If Localized Types is enabled
+        if self.options.localized_hints:
+            #Only allow items that exist in your game, or are yours
+            if each_item.player != self.player and each_item.location.player != self.player:
+                continue
         valid_items.append(each_item)
     return valid_items

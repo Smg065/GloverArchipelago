@@ -1604,7 +1604,8 @@ class GloverWorld(World):
             "mr_hints_scouts",
             "mr_tip_text_display",
             "chicken_hints",
-            "extra_garibs_value"
+            "extra_garibs_value",
+            "localized_hints"
         )
 
         options["filler_duration"] = self.calculate_duration()
@@ -1735,6 +1736,7 @@ class GloverWorld(World):
         self.options.insectity.value = slot_data["insectity"]
         self.options.extra_garibs_value.value = slot_data["extra_garibs_value"]
         self.options.include_power_ball = slot_data["include_power_ball"]
+        self.options.localized_hints = slot_data["localized_hints"]
         # Don't generate a PUML during UT gen (unless debugging)
         self.options.generate_puml.value = False
         # Parse Score checks
